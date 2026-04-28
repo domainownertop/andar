@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ANDAR — Ideas for good. Agencia creativa especializada en branding, diseño y estrategia digital en Málaga.">
+  <meta name="theme-color" content="#E8B517">
+  <title>ANDAR — Ideas for good</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- BLOCK 1: Hero Section                                         -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <section id="hero" class="hero" aria-label="Hero">
+    <header class="header">
+      <a href="#hero" class="logo" aria-label="ANDAR Home">
+        <span class="logo-text">ANDAR</span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#projects" class="nav-link nav-link--pill" id="nav-proyectos">Proyectos</a>
+        <a href="#contact" class="nav-link" id="nav-quienes">Quienes somos</a>
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Mobile Nav Overlay -->
+    <div class="mobile-nav-overlay" id="mobile-nav-overlay">
+      <nav class="mobile-nav" aria-label="Mobile navigation">
+        <a href="#projects" class="mobile-nav-link" id="mobile-nav-proyectos">Proyectos</a>
+        <a href="#contact" class="mobile-nav-link" id="mobile-nav-quienes">Quienes somos</a>
+      </nav>
+    </div>
+
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="hero-title--bold">IDEAS</span> FOR GOOD
+      </h1>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- BLOCK 2: Projects Carousel                                    -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <section id="projects" class="projects" aria-label="Projects">
+    <!-- Project tabs navigation -->
+    <div class="project-tabs">
+      <button class="project-tab active" data-index="0" id="tab-aequs">Aequs</button>
+      <button class="project-tab" data-index="1" id="tab-distritozeta">Distritozeta</button>
+      <button class="project-tab" data-index="2" id="tab-bucefalo">Bucéfalo</button>
+      <button class="project-tab" data-index="3" id="tab-onecar">Onecar</button>
+    </div>
+
+    <!-- Carousel -->
+    <div class="carousel" id="carousel">
+      <div class="carousel-track" id="carousel-track">
+        <!-- Slide 1: Aequs -->
+        <div class="carousel-slide" id="slide-aequs">
+          <div class="slide-image-wrap">
+            <img src="images/aequs.png" alt="Proyecto Aequs — Branding digital para consultoría inmobiliaria" class="slide-image" width="1200" height="800" loading="eager">
+          </div>
+          <div class="slide-info">
+            <h2 class="slide-title">Aequs</h2>
+            <p class="slide-desc">Branding para consultora de una marca que se dedica a VPO y viviendas de cooperativa.</p>
+          </div>
+          <div class="slide-progress">
+            <span class="progress-bar active"></span>
+            <span class="progress-bar"></span>
+            <span class="progress-bar"></span>
+            <span class="progress-bar"></span>
+          </div>
+        </div>
+
+        <!-- Slide 2: Distritozeta -->
+        <div class="carousel-slide" id="slide-distritozeta">
+          <div class="slide-image-wrap">
+            <img src="images/distritozeta.png" alt="Proyecto Distritozeta — Branding para consultora inmobiliaria" class="slide-image" width="1200" height="800" loading="lazy">
+          </div>
+          <div class="slide-info">
+            <h2 class="slide-title">Distritozeta</h2>
+            <p class="slide-desc">Branding para consultora de una marca que se dedica a VPO y viviendas de cooperativa.</p>
+          </div>
+          <div class="slide-progress">
+            <span class="progress-bar"></span>
+            <span class="progress-bar active"></span>
+            <span class="progress-bar"></span>
+            <span class="progress-bar"></span>
+          </div>
+        </div>
+
+        <!-- Slide 3: Bucéfalo -->
+        <div class="carousel-slide" id="slide-bucefalo">
+          <div class="slide-image-wrap">
+            <img src="images/bucefalo.png" alt="Proyecto Bucéfalo — Branding para gestora inmobiliaria" class="slide-image" width="1200" height="800" loading="lazy">
+          </div>
+          <div class="slide-info">
+            <h2 class="slide-title">Bucéfalo</h2>
+            <p class="slide-desc">Branding para consultora de una marca que se dedica a VPO y viviendas de cooperativa.</p>
+          </div>
+          <div class="slide-progress">
+            <span class="progress-bar"></span>
+            <span class="progress-bar"></span>
+            <span class="progress-bar active"></span>
+            <span class="progress-bar"></span>
+          </div>
+        </div>
+
+        <!-- Slide 4: Onecar -->
+        <div class="carousel-slide" id="slide-onecar">
+          <div class="slide-image-wrap">
+            <img src="images/onecar.png" alt="Proyecto Onecar — App de movilidad urbana" class="slide-image" width="1200" height="800" loading="lazy">
+          </div>
+          <div class="slide-info">
+            <h2 class="slide-title">Onecar</h2>
+            <p class="slide-desc">Branding para consultora de una marca que se dedica a VPO y viviendas de cooperativa.</p>
+          </div>
+          <div class="slide-progress">
+            <span class="progress-bar"></span>
+            <span class="progress-bar"></span>
+            <span class="progress-bar"></span>
+            <span class="progress-bar active"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carousel Navigation Arrows -->
+      <button class="carousel-arrow carousel-arrow--prev" id="carousel-prev" aria-label="Previous project">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <path d="M18 4L8 14L18 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="carousel-arrow carousel-arrow--next" id="carousel-next" aria-label="Next project">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <path d="M10 4L20 14L10 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- BLOCK 3: Contact & Footer                                     -->
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <section id="contact" class="contact" aria-label="Contact">
+    <div class="contact-container">
+      <div class="contact-left">
+        <h2 class="contact-title">¿Andamos?</h2>
+      </div>
+      <div class="contact-right">
+        <form class="contact-form" id="contact-form" novalidate>
+          <div class="form-group">
+            <input type="text" id="form-nombre" name="nombre" placeholder="Nombre" required autocomplete="name" aria-label="Nombre">
+          </div>
+          <div class="form-group">
+            <input type="email" id="form-email" name="email" placeholder="Correo electrónico" required autocomplete="email" aria-label="Correo electrónico">
+          </div>
+          <div class="form-group">
+            <input type="tel" id="form-telefono" name="telefono" placeholder="Teléfono" autocomplete="tel" aria-label="Teléfono">
+          </div>
+          <div class="form-group">
+            <textarea id="form-mensaje" name="mensaje" placeholder="Mensaje" rows="4" aria-label="Mensaje"></textarea>
+          </div>
+          <button type="submit" class="form-submit" id="form-submit">
+            E N V I A R
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" aria-label="Footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="footer-logo">ANDAR</span>
+      </div>
+      <div class="footer-address">
+        <p>C/ Córdoba 6, Planta 03 Oficina 310</p>
+        <p>29001 Málaga</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="footer-social">Instagram</a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="footer-social">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js" defer></script>
+</body>
+</html>
