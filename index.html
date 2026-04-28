@@ -154,7 +154,8 @@
         <h2 class="contact-title">¿Andamos?</h2>
       </div>
       <div class="contact-right">
-        <form class="contact-form" id="contact-form" novalidate>
+        <form class="contact-form" id="contact-form" name="contacto" data-netlify="true" novalidate>
+          <input type="hidden" name="form-name" value="contacto">
           <div class="form-group">
             <input type="text" id="form-nombre" name="nombre" placeholder="Nombre" required autocomplete="name" aria-label="Nombre">
           </div>
