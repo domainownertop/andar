@@ -55,9 +55,11 @@
 }
 
 html {
-  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
   font-size: 16px;
+  /* Disable native scroll — we use snap container */
+  overflow: hidden;
+  height: 100%;
 }
 
 body {
@@ -67,7 +69,8 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow: hidden;
+  height: 100%;
 }
 
 img {
@@ -117,20 +120,31 @@ input, textarea {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   BLOCK 1: HERO SECTION
+   SNAP SCROLL CONTAINER
    ═══════════════════════════════════════════════════════════════════ */
 
-.hero {
+.snap-container {
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.snap-section {
+  height: 100vh;
+  height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   position: relative;
-  min-height: 100vh;
-  min-height: 100dvh;
-  background-color: var(--gold);
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
 }
 
-/* ── Header ────────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════
+   FIXED HEADER (above everything)
+   ═══════════════════════════════════════════════════════════════════ */
+
 .header {
   position: fixed;
   top: 0;
@@ -152,8 +166,10 @@ input, textarea {
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 }
 
-.header.scrolled.dark {
+.header.dark {
   background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .logo {
@@ -270,7 +286,16 @@ input, textarea {
   color: var(--white);
 }
 
-/* ── Hero Content ──────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════
+   BLOCK 1: HERO SECTION
+   ═══════════════════════════════════════════════════════════════════ */
+
+.hero {
+  background-color: var(--gold);
+  display: flex;
+  flex-direction: column;
+}
+
 .hero-content {
   flex: 1;
   display: flex;
@@ -306,12 +331,13 @@ input, textarea {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   BLOCK 2: PROJECTS CAROUSEL
+   BLOCK 2: PROJECTS
    ═══════════════════════════════════════════════════════════════════ */
 
 .projects {
-  position: relative;
   background: var(--black);
+  display: flex;
+  flex-direction: column;
 }
 
 /* ── Project Tabs ──────────────────────────────────────────────── */
@@ -321,6 +347,8 @@ input, textarea {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  flex-shrink: 0;
+  margin-top: var(--header-height);
 }
 
 .project-tabs::-webkit-scrollbar {
@@ -365,53 +393,121 @@ input, textarea {
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* ── Carousel ──────────────────────────────────────────────────── */
-.carousel {
+/* ── Projects Viewport ─────────────────────────────────────────── */
+.projects-viewport {
+  flex: 1;
   position: relative;
   overflow: hidden;
-  touch-action: pan-y;
+  min-height: 0;
 }
 
-.carousel-track {
-  display: flex;
-  transition: transform 600ms var(--ease-smooth);
-  will-change: transform;
-}
-
-.carousel-slide {
-  min-width: 100%;
+.project-panel {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s var(--ease-smooth);
 }
 
-.slide-image-wrap {
+.project-panel.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Asset Carousel (inner, per project) ───────────────────────── */
+.asset-carousel {
+  flex: 1;
   position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
   overflow: hidden;
+  min-height: 0;
 }
 
-.slide-image {
+.asset-track {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.asset-track .asset-item {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-smooth);
+}
+
+.asset-track .asset-item.active {
+  opacity: 1;
+}
+
+.asset-track .asset-item img,
+.asset-track .asset-item video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.8s var(--ease-smooth);
 }
 
-.carousel-slide:hover .slide-image {
-  transform: scale(1.03);
+/* Asset Arrows */
+.asset-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  z-index: 10;
+  transition: all var(--transition-fast);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
 }
 
+.asset-arrow:hover {
+  background: rgba(0, 0, 0, 0.6);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.asset-arrow--prev {
+  left: var(--space-sm);
+}
+
+.asset-arrow--next {
+  right: var(--space-sm);
+}
+
+/* Asset Counter */
+.asset-counter {
+  position: absolute;
+  bottom: var(--space-sm);
+  right: var(--space-md);
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: var(--white);
+  background: rgba(0, 0, 0, 0.4);
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-pill);
+  z-index: 10;
+  letter-spacing: 0.05em;
+}
+
+/* ── Slide Info ────────────────────────────────────────────────── */
 .slide-info {
   display: flex;
   align-items: baseline;
   gap: var(--space-md);
-  padding: var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
+  flex-shrink: 0;
   flex-wrap: wrap;
 }
 
 .slide-title {
-  font-size: clamp(2rem, 5vw, 4rem);
+  font-size: clamp(1.8rem, 4vw, 3rem);
   font-weight: 200;
   letter-spacing: 0.01em;
   line-height: 1;
@@ -426,14 +522,15 @@ input, textarea {
   line-height: 1.6;
 }
 
-/* ── Progress Bars ─────────────────────────────────────────────── */
-.slide-progress {
+/* ── Project Progress (auto-carousel) ─────────────────────────── */
+.project-progress {
   display: flex;
   gap: var(--space-sm);
-  padding: 0 var(--space-lg) var(--space-lg);
+  padding: 0 var(--space-lg) var(--space-md);
+  flex-shrink: 0;
 }
 
-.progress-bar {
+.project-progress-bar {
   flex: 1;
   height: 3px;
   background: var(--grey);
@@ -441,44 +538,38 @@ input, textarea {
   overflow: hidden;
   opacity: 0.3;
   transition: opacity var(--transition-base);
+  position: relative;
 }
 
-.progress-bar.active {
+.project-progress-bar.active {
   opacity: 1;
-  background: var(--gold);
 }
 
-/* ── Carousel Arrows ───────────────────────────────────────────── */
-.carousel-arrow {
+.project-progress-bar::before {
+  content: '';
   position: absolute;
-  top: 50%;
-  transform: translateY(-80%);
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--gold);
-  transition: all var(--transition-fast);
-  z-index: 10;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: var(--gold);
+  border-radius: 2px;
+  transition: width 0.3s linear;
 }
 
-.carousel-arrow:hover {
-  color: var(--white);
-  transform: translateY(-80%) scale(1.15);
+.project-progress-bar.active::before {
+  width: 0%;
+  animation: progressFill var(--auto-play-duration, 12s) linear forwards;
 }
 
-.carousel-arrow--prev {
-  left: var(--space-sm);
+.project-progress-bar.completed::before {
+  width: 100%;
+  animation: none;
 }
 
-.carousel-arrow--next {
-  right: var(--space-sm);
-}
-
-.carousel-arrow:disabled {
-  opacity: 0.2;
-  pointer-events: none;
+@keyframes progressFill {
+  from { width: 0%; }
+  to { width: 100%; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -487,18 +578,29 @@ input, textarea {
 
 .contact {
   background: var(--gold);
-  padding: var(--space-3xl) var(--space-lg);
-  position: relative;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: var(--header-height);
 }
 
 .contact-container {
   max-width: var(--max-width);
   margin: 0 auto;
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-xl);
   align-items: start;
+  padding: var(--space-xl) var(--space-lg);
+  flex: 1;
+  align-content: center;
 }
 
 .contact-title {
@@ -541,7 +643,7 @@ input, textarea {
 
 .form-group textarea {
   resize: vertical;
-  min-height: 120px;
+  min-height: 100px;
 }
 
 .form-submit {
@@ -582,9 +684,9 @@ input, textarea {
 
 /* ── Footer ────────────────────────────────────────────────────── */
 .footer {
-  background: var(--gold);
-  padding: var(--space-xl) var(--space-lg) var(--space-lg);
+  padding: var(--space-md) var(--space-lg);
   border-top: 1px solid rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
 }
 
 .footer-container {
@@ -659,10 +761,6 @@ input, textarea {
     text-align: center;
   }
 
-  .contact {
-    padding: var(--space-xl) var(--space-lg);
-  }
-
   .slide-info {
     flex-direction: column;
     gap: var(--space-xs);
@@ -702,34 +800,34 @@ input, textarea {
   }
 
   .slide-info {
-    padding: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
   }
 
-  .slide-progress {
-    padding: 0 var(--space-md) var(--space-md);
+  .project-progress {
+    padding: 0 var(--space-md) var(--space-sm);
   }
 
   .slide-title {
-    font-size: 2rem;
+    font-size: 1.6rem;
   }
 
-  .carousel-arrow {
-    width: 40px;
-    height: 40px;
+  .asset-arrow {
+    width: 36px;
+    height: 36px;
   }
 
-  .carousel-arrow svg {
-    width: 20px;
-    height: 20px;
+  .asset-arrow svg {
+    width: 18px;
+    height: 18px;
   }
 
-  .contact {
-    padding: var(--space-xl) var(--space-md);
+  .contact-container {
+    padding: var(--space-lg) var(--space-md);
   }
 
   .contact-title {
     text-align: left;
-    font-size: 3.5rem;
+    font-size: 3rem;
   }
 
   .footer-container {
@@ -738,7 +836,7 @@ input, textarea {
   }
 
   .footer {
-    padding: var(--space-lg) var(--space-md) var(--space-md);
+    padding: var(--space-sm) var(--space-md);
   }
 }
 
@@ -783,7 +881,7 @@ input, textarea {
     transition-duration: 0.01ms !important;
   }
 
-  html {
+  .snap-container {
     scroll-behavior: auto;
   }
 }

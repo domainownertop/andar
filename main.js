@@ -1,173 +1,318 @@
 /* ═══════════════════════════════════════════════════════════════════
    ANDAR — Main JavaScript
-   Carousel, scroll animations, navigation, and form handling
+   Snap scroll, project carousel, asset navigation, form handling
    ═══════════════════════════════════════════════════════════════════ */
 
 (function () {
   'use strict';
 
   // ── DOM References ──────────────────────────────────────────────
-  const header = document.querySelector('.header');
-  const hamburger = document.getElementById('nav-hamburger');
-  const mobileOverlay = document.getElementById('mobile-nav-overlay');
-  const carouselTrack = document.getElementById('carousel-track');
-  const prevBtn = document.getElementById('carousel-prev');
-  const nextBtn = document.getElementById('carousel-next');
-  const tabs = document.querySelectorAll('.project-tab');
-  const slides = document.querySelectorAll('.carousel-slide');
-  const contactForm = document.getElementById('contact-form');
-  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+  var header = document.getElementById('header');
+  var hamburger = document.getElementById('nav-hamburger');
+  var mobileOverlay = document.getElementById('mobile-nav-overlay');
+  var snapContainer = document.getElementById('snap-container');
+  var tabs = document.querySelectorAll('.project-tab');
+  var panels = document.querySelectorAll('.project-panel');
+  var progressBars = document.querySelectorAll('.project-progress-bar');
+  var contactForm = document.getElementById('contact-form');
+  var mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
 
   // ── State ───────────────────────────────────────────────────────
-  let currentSlide = 0;
-  const totalSlides = slides.length;
-  let touchStartX = 0;
-  let touchEndX = 0;
-  let isDragging = false;
-  let autoPlayTimer = null;
-  const AUTO_PLAY_INTERVAL = 6000;
+  var currentProject = 0;
+  var totalProjects = panels.length;
+  var autoPlayTimer = null;
+  var AUTO_PLAY_INTERVAL = 12000; // 12 seconds — much slower
+  var assetIndices = {}; // track current asset index per project
+
+  // Project keys in order
+  var projectKeys = ['aequs', 'distritozeta', 'bucefalo', 'onecar'];
 
   // ═══════════════════════════════════════════════════════════════
-  // HEADER SCROLL BEHAVIOR
+  // HEADER THEME BASED ON VISIBLE SECTION
   // ═══════════════════════════════════════════════════════════════
 
-  function updateHeader() {
-    const scrollY = window.scrollY;
-    const heroHeight = document.getElementById('hero').offsetHeight;
-    const projectsSection = document.getElementById('projects');
-    const projectsTop = projectsSection ? projectsSection.offsetTop : heroHeight;
-    const contactSection = document.getElementById('contact');
-    const contactTop = contactSection ? contactSection.offsetTop : Infinity;
+  function updateHeaderTheme() {
+    var sections = snapContainer.querySelectorAll('.snap-section');
+    var scrollTop = snapContainer.scrollTop;
+    var viewportH = snapContainer.clientHeight;
+    var midPoint = scrollTop + viewportH / 2;
 
-    if (scrollY > 50) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
+    var activeSection = null;
+    sections.forEach(function (sec) {
+      if (sec.offsetTop <= midPoint && sec.offsetTop + sec.offsetHeight > midPoint) {
+        activeSection = sec;
+      }
+    });
 
-    // Dark header when over projects section
-    if (scrollY + 100 > projectsTop && scrollY + 100 < contactTop) {
+    if (!activeSection) return;
+
+    header.classList.remove('dark', 'scrolled');
+
+    if (activeSection.id === 'projects') {
       header.classList.add('dark');
-    } else {
-      header.classList.remove('dark');
     }
+    // On hero or contact (gold), no dark class
   }
 
-  window.addEventListener('scroll', updateHeader, { passive: true });
+  snapContainer.addEventListener('scroll', updateHeaderTheme, { passive: true });
 
   // ═══════════════════════════════════════════════════════════════
   // MOBILE NAVIGATION
   // ═══════════════════════════════════════════════════════════════
 
+  function closeMobileNav() {
+    hamburger.classList.remove('active');
+    mobileOverlay.classList.remove('active');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }
+
   if (hamburger) {
     hamburger.addEventListener('click', function () {
-      const isOpen = hamburger.classList.contains('active');
+      var isOpen = hamburger.classList.contains('active');
       hamburger.classList.toggle('active');
       mobileOverlay.classList.toggle('active');
-      hamburger.setAttribute('aria-expanded', !isOpen);
-      document.body.style.overflow = isOpen ? '' : 'hidden';
+      hamburger.setAttribute('aria-expanded', String(!isOpen));
     });
   }
 
-  // Close mobile nav on link click
   mobileNavLinks.forEach(function (link) {
-    link.addEventListener('click', function () {
-      hamburger.classList.remove('active');
-      mobileOverlay.classList.remove('active');
-      hamburger.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      closeMobileNav();
+      var targetId = link.getAttribute('href').slice(1);
+      var targetSection = document.getElementById(targetId);
+      if (targetSection) {
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+      }
     });
   });
 
   // ═══════════════════════════════════════════════════════════════
-  // CAROUSEL
+  // NAV LINK SCROLL (desktop)
   // ═══════════════════════════════════════════════════════════════
 
-  function goToSlide(index) {
-    if (index < 0 || index >= totalSlides) return;
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      var targetId = this.getAttribute('href').slice(1);
+      var targetSection = document.getElementById(targetId);
+      if (targetSection) {
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
 
-    currentSlide = index;
-    carouselTrack.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+  // ═══════════════════════════════════════════════════════════════
+  // ASSET CAROUSEL (per-project inner carousel)
+  // ═══════════════════════════════════════════════════════════════
 
-    // Update tabs
-    tabs.forEach(function (tab, i) {
-      tab.classList.toggle('active', i === currentSlide);
+  /**
+   * Initialize asset elements for a given project panel.
+   * Lazily creates DOM elements from the data-assets JSON.
+   */
+  function initAssets(panel) {
+    var track = panel.querySelector('.asset-track');
+    if (track.dataset.initialized === 'true') return;
+
+    var assets = JSON.parse(track.dataset.assets);
+    var projectKey = panel.dataset.project;
+    assetIndices[projectKey] = 0;
+
+    // Update total counter
+    var totalEl = panel.querySelector('.asset-counter-total');
+    if (totalEl) totalEl.textContent = assets.length;
+
+    assets.forEach(function (asset, i) {
+      var div = document.createElement('div');
+      div.className = 'asset-item' + (i === 0 ? ' active' : '');
+
+      if (asset.type === 'video') {
+        var video = document.createElement('video');
+        video.src = asset.src;
+        video.muted = true;
+        video.loop = true;
+        video.playsInline = true;
+        video.autoplay = (i === 0);
+        video.preload = (i === 0) ? 'auto' : 'metadata';
+        video.setAttribute('playsinline', '');
+        div.appendChild(video);
+      } else {
+        var img = document.createElement('img');
+        img.src = asset.src;
+        img.alt = projectKey + ' asset ' + (i + 1);
+        img.loading = (i === 0) ? 'eager' : 'lazy';
+        div.appendChild(img);
+      }
+
+      track.appendChild(div);
     });
 
-    // Update arrows
-    prevBtn.disabled = currentSlide === 0;
-    nextBtn.disabled = currentSlide === totalSlides - 1;
+    track.dataset.initialized = 'true';
 
-    // Reset autoplay
+    // Start first video if applicable
+    var firstItem = track.querySelector('.asset-item.active video');
+    if (firstItem) {
+      firstItem.play().catch(function () {});
+    }
+  }
+
+  /**
+   * Navigate asset within a project panel
+   */
+  function goToAsset(panel, direction) {
+    var track = panel.querySelector('.asset-track');
+    var items = track.querySelectorAll('.asset-item');
+    var projectKey = panel.dataset.project;
+    var current = assetIndices[projectKey] || 0;
+
+    // Pause current video
+    var currentVideo = items[current].querySelector('video');
+    if (currentVideo) currentVideo.pause();
+
+    items[current].classList.remove('active');
+
+    // Calculate next index (wrap around)
+    var next;
+    if (direction === 'next') {
+      next = (current + 1) % items.length;
+    } else {
+      next = (current - 1 + items.length) % items.length;
+    }
+
+    items[next].classList.add('active');
+    assetIndices[projectKey] = next;
+
+    // Update counter
+    var counterEl = panel.querySelector('.asset-counter-current');
+    if (counterEl) counterEl.textContent = next + 1;
+
+    // Play next video if applicable
+    var nextVideo = items[next].querySelector('video');
+    if (nextVideo) {
+      nextVideo.currentTime = 0;
+      nextVideo.play().catch(function () {});
+    }
+  }
+
+  // Wire up asset arrows for all panels
+  panels.forEach(function (panel) {
+    var prevArrow = panel.querySelector('.asset-arrow--prev');
+    var nextArrow = panel.querySelector('.asset-arrow--next');
+
+    if (prevArrow) {
+      prevArrow.addEventListener('click', function (e) {
+        e.stopPropagation();
+        goToAsset(panel, 'prev');
+      });
+    }
+    if (nextArrow) {
+      nextArrow.addEventListener('click', function (e) {
+        e.stopPropagation();
+        goToAsset(panel, 'next');
+      });
+    }
+  });
+
+  // Touch swipe for assets
+  panels.forEach(function (panel) {
+    var carousel = panel.querySelector('.asset-carousel');
+    var touchStartX = 0;
+    var touchEndX = 0;
+
+    carousel.addEventListener('touchstart', function (e) {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    carousel.addEventListener('touchend', function (e) {
+      touchEndX = e.changedTouches[0].screenX;
+      var diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 50) {
+        goToAsset(panel, diff > 0 ? 'next' : 'prev');
+      }
+    }, { passive: true });
+  });
+
+  // ═══════════════════════════════════════════════════════════════
+  // PROJECT CAROUSEL (auto-rotating between projects)
+  // ═══════════════════════════════════════════════════════════════
+
+  function pauseAllVideos() {
+    document.querySelectorAll('.project-panel video').forEach(function (v) {
+      v.pause();
+    });
+  }
+
+  function goToProject(index) {
+    if (index < 0 || index >= totalProjects) index = 0;
+
+    // Pause videos on current panel
+    pauseAllVideos();
+
+    currentProject = index;
+
+    // Update panels
+    panels.forEach(function (p, i) {
+      p.classList.toggle('active', i === currentProject);
+    });
+
+    // Update tabs
+    tabs.forEach(function (t, i) {
+      t.classList.toggle('active', i === currentProject);
+    });
+
+    // Update progress bars
+    progressBars.forEach(function (bar, i) {
+      bar.classList.remove('active', 'completed');
+      if (i < currentProject) {
+        bar.classList.add('completed');
+      } else if (i === currentProject) {
+        bar.classList.add('active');
+      }
+    });
+
+    // Initialize assets for the new panel
+    var activePanel = panels[currentProject];
+    initAssets(activePanel);
+
+    // Reset asset to first
+    var projectKey = projectKeys[currentProject];
+    var track = activePanel.querySelector('.asset-track');
+    var items = track.querySelectorAll('.asset-item');
+
+    // Reset to first asset
+    items.forEach(function (item, i) {
+      item.classList.toggle('active', i === 0);
+      var vid = item.querySelector('video');
+      if (vid) vid.pause();
+    });
+    assetIndices[projectKey] = 0;
+
+    var counterEl = activePanel.querySelector('.asset-counter-current');
+    if (counterEl) counterEl.textContent = '1';
+
+    // Play first video
+    var firstVideo = items[0] ? items[0].querySelector('video') : null;
+    if (firstVideo) {
+      firstVideo.currentTime = 0;
+      firstVideo.play().catch(function () {});
+    }
+
+    // Reset autoplay timer
     resetAutoPlay();
   }
 
   // Tab clicks
-  tabs.forEach(function (tab) {
+  tabs.forEach(function (tab, i) {
     tab.addEventListener('click', function () {
-      var index = parseInt(tab.dataset.index, 10);
-      goToSlide(index);
+      goToProject(i);
     });
   });
 
-  // Arrow clicks
-  prevBtn.addEventListener('click', function () {
-    goToSlide(currentSlide - 1);
-  });
-
-  nextBtn.addEventListener('click', function () {
-    goToSlide(currentSlide + 1);
-  });
-
-  // Touch/swipe support
-  var carousel = document.getElementById('carousel');
-
-  carousel.addEventListener('touchstart', function (e) {
-    touchStartX = e.changedTouches[0].screenX;
-    isDragging = true;
-    pauseAutoPlay();
-  }, { passive: true });
-
-  carousel.addEventListener('touchmove', function (e) {
-    if (!isDragging) return;
-    touchEndX = e.changedTouches[0].screenX;
-  }, { passive: true });
-
-  carousel.addEventListener('touchend', function () {
-    if (!isDragging) return;
-    isDragging = false;
-
-    var diff = touchStartX - touchEndX;
-    var threshold = 60;
-
-    if (Math.abs(diff) > threshold) {
-      if (diff > 0 && currentSlide < totalSlides - 1) {
-        goToSlide(currentSlide + 1);
-      } else if (diff < 0 && currentSlide > 0) {
-        goToSlide(currentSlide - 1);
-      }
-    }
-
-    resetAutoPlay();
-  }, { passive: true });
-
-  // Keyboard navigation
-  carousel.setAttribute('tabindex', '0');
-  carousel.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowLeft') {
-      e.preventDefault();
-      goToSlide(currentSlide - 1);
-    } else if (e.key === 'ArrowRight') {
-      e.preventDefault();
-      goToSlide(currentSlide + 1);
-    }
-  });
-
-  // Auto-play
+  // Auto-play: rotate projects slowly
   function startAutoPlay() {
     autoPlayTimer = setInterval(function () {
-      var next = (currentSlide + 1) % totalSlides;
-      goToSlide(next);
+      var next = (currentProject + 1) % totalProjects;
+      goToProject(next);
     }, AUTO_PLAY_INTERVAL);
   }
 
@@ -177,34 +322,39 @@
 
   function resetAutoPlay() {
     pauseAutoPlay();
+    // Restart progress bar animation
+    var activeBar = progressBars[currentProject];
+    if (activeBar) {
+      activeBar.classList.remove('active');
+      // Force reflow to restart CSS animation
+      void activeBar.offsetWidth;
+      activeBar.classList.add('active');
+    }
     startAutoPlay();
   }
 
-  // Initialize carousel
-  goToSlide(0);
-  startAutoPlay();
+  // Set CSS variable for progress bar duration
+  document.documentElement.style.setProperty('--auto-play-duration', AUTO_PLAY_INTERVAL + 'ms');
 
-  // Pause autoplay on hover
-  carousel.addEventListener('mouseenter', pauseAutoPlay);
-  carousel.addEventListener('mouseleave', resetAutoPlay);
+  // Initialize first project
+  goToProject(0);
+
+  // Pause autoplay when hovering projects section
+  var projectsSection = document.getElementById('projects');
+  projectsSection.addEventListener('mouseenter', pauseAutoPlay);
+  projectsSection.addEventListener('mouseleave', resetAutoPlay);
 
   // ═══════════════════════════════════════════════════════════════
   // SCROLL ANIMATIONS (Intersection Observer)
   // ═══════════════════════════════════════════════════════════════
 
-  // Add fade-in class to elements
-  var animateElements = [
-    '.contact-title',
-    '.contact-form',
-    '.footer-container'
-  ];
+  var animateElements = ['.contact-title', '.contact-form', '.footer-container'];
 
   animateElements.forEach(function (selector) {
     var el = document.querySelector(selector);
     if (el) el.classList.add('fade-in');
   });
 
-  // Observe
   if ('IntersectionObserver' in window) {
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -215,7 +365,7 @@
       });
     }, {
       threshold: 0.15,
-      rootMargin: '0px 0px -50px 0px'
+      root: snapContainer
     });
 
     document.querySelectorAll('.fade-in').forEach(function (el) {
@@ -272,23 +422,5 @@
         });
     });
   }
-
-  // ═══════════════════════════════════════════════════════════════
-  // SMOOTH SCROLL FOR NAV LINKS
-  // ═══════════════════════════════════════════════════════════════
-
-  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
-    anchor.addEventListener('click', function (e) {
-      var target = document.querySelector(this.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        var offsetTop = target.offsetTop - 80;
-        window.scrollTo({
-          top: offsetTop,
-          behavior: 'smooth'
-        });
-      }
-    });
-  });
 
 })();
