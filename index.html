@@ -26,7 +26,7 @@
       <span class="logo-text">ANDAR</span>
     </a>
     <nav class="nav" aria-label="Main navigation">
-      <a href="#projects" class="nav-link nav-link--pill" id="nav-proyectos">Proyectos</a>
+      <a href="#project-aequs" class="nav-link nav-link--pill" id="nav-proyectos">Proyectos</a>
       <a href="#contact" class="nav-link" id="nav-quienes">Quienes somos</a>
       <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
         <span></span>
@@ -40,7 +40,7 @@
   <div class="mobile-nav-overlay" id="mobile-nav-overlay">
     <nav class="mobile-nav" aria-label="Mobile navigation">
       <a href="#hero" class="mobile-nav-link">Inicio</a>
-      <a href="#projects" class="mobile-nav-link">Proyectos</a>
+      <a href="#project-aequs" class="mobile-nav-link">Proyectos</a>
       <a href="#contact" class="mobile-nav-link">Contacto</a>
     </nav>
   </div>
@@ -59,21 +59,16 @@
       </div>
     </section>
 
-    <!-- ─── BLOCK 2: Projects ─────────────────────────────────────── -->
-    <section id="projects" class="snap-section projects" aria-label="Projects">
-      <!-- Project tabs navigation -->
+    <!-- ─── BLOCK 2: Project Aequs ────────────────────────────────── -->
+    <section id="project-aequs" class="snap-section projects" aria-label="Project Aequs">
       <div class="project-tabs">
-        <button class="project-tab active" data-project="aequs" id="tab-aequs">Aequs</button>
-        <button class="project-tab" data-project="distritozeta" id="tab-distritozeta">Distritozeta</button>
-        <button class="project-tab" data-project="bucefalo" id="tab-bucefalo">Bucéfalo</button>
-        <button class="project-tab" data-project="onecar" id="tab-onecar">Onecar</button>
+        <button class="project-tab active" data-project="aequs">Aequs</button>
+        <button class="project-tab" data-project="distritozeta">Distritozeta</button>
+        <button class="project-tab" data-project="bucefalo">Bucéfalo</button>
+        <button class="project-tab" data-project="onecar">Onecar</button>
       </div>
-
-      <!-- Projects viewport -->
-      <div class="projects-viewport" id="projects-viewport">
-
-        <!-- Project: Aequs -->
-        <div class="project-panel active" data-project="aequs" id="panel-aequs">
+      <div class="projects-viewport">
+        <div class="project-panel active" data-project="aequs">
           <div class="asset-carousel">
             <div class="asset-track" data-assets='[
               {"type":"video","src":"assets/01_aequs/01_Aequs_Landing.mp4"},
@@ -83,32 +78,33 @@
               {"type":"video","src":"assets/01_aequs/05_Aequs_Landing.mp4"},
               {"type":"image","src":"assets/01_aequs/06_Aequs_Landing.png"}
             ]'>
-              <!-- First asset loaded by JS -->
             </div>
             <button class="asset-arrow asset-arrow--prev" aria-label="Previous asset">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <path d="M18 4L8 14L18 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M18 4L8 14L18 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
             <button class="asset-arrow asset-arrow--next" aria-label="Next asset">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <path d="M10 4L20 14L10 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M10 4L20 14L10 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
-            <div class="asset-counter"><span class="asset-counter-current">1</span> / <span
-                class="asset-counter-total">6</span></div>
+            <div class="asset-counter"><span class="asset-counter-current">1</span> / <span class="asset-counter-total">6</span></div>
           </div>
           <div class="slide-info">
             <h2 class="slide-title">Aequs</h2>
-            <p class="slide-desc">Branding para consultora de una marca que se dedica a VPO y viviendas de cooperativa.
-            </p>
+            <p class="slide-desc">Branding para consultora de una marca que se dedica a VPO y viviendas de cooperativa.</p>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Project: Distritozeta -->
-        <div class="project-panel" data-project="distritozeta" id="panel-distritozeta">
+    <!-- ─── BLOCK 3: Project Distritozeta ─────────────────────────── -->
+    <section id="project-distritozeta" class="snap-section projects" aria-label="Project Distritozeta">
+      <div class="project-tabs">
+        <button class="project-tab" data-project="aequs">Aequs</button>
+        <button class="project-tab active" data-project="distritozeta">Distritozeta</button>
+        <button class="project-tab" data-project="bucefalo">Bucéfalo</button>
+        <button class="project-tab" data-project="onecar">Onecar</button>
+      </div>
+      <div class="projects-viewport">
+        <div class="project-panel active" data-project="distritozeta">
           <div class="asset-carousel">
             <div class="asset-track" data-assets='[
               {"type":"video","src":"assets/02_distritozeta/01_DZ_Landing.mp4"},
@@ -120,29 +116,31 @@
             ]'>
             </div>
             <button class="asset-arrow asset-arrow--prev" aria-label="Previous asset">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <path d="M18 4L8 14L18 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M18 4L8 14L18 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
             <button class="asset-arrow asset-arrow--next" aria-label="Next asset">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <path d="M10 4L20 14L10 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M10 4L20 14L10 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
-            <div class="asset-counter"><span class="asset-counter-current">1</span> / <span
-                class="asset-counter-total">6</span></div>
+            <div class="asset-counter"><span class="asset-counter-current">1</span> / <span class="asset-counter-total">6</span></div>
           </div>
           <div class="slide-info">
             <h2 class="slide-title">Distritozeta</h2>
-            <p class="slide-desc">Branding para consultora de una marca que se dedica a VPO y viviendas de cooperativa.
-            </p>
+            <p class="slide-desc">Branding para urbanismo y promoción de viviendas en el sector de Distrito Zeta en Málaga.</p>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Project: Bucéfalo -->
-        <div class="project-panel" data-project="bucefalo" id="panel-bucefalo">
+    <!-- ─── BLOCK 4: Project Bucéfalo ─────────────────────────────── -->
+    <section id="project-bucefalo" class="snap-section projects" aria-label="Project Bucéfalo">
+      <div class="project-tabs">
+        <button class="project-tab" data-project="aequs">Aequs</button>
+        <button class="project-tab" data-project="distritozeta">Distritozeta</button>
+        <button class="project-tab active" data-project="bucefalo">Bucéfalo</button>
+        <button class="project-tab" data-project="onecar">Onecar</button>
+      </div>
+      <div class="projects-viewport">
+        <div class="project-panel active" data-project="bucefalo">
           <div class="asset-carousel">
             <div class="asset-track" data-assets='[
               {"type":"image","src":"assets/03_bucefalo/01_Bucefalo_Landing.png"},
@@ -154,29 +152,31 @@
             ]'>
             </div>
             <button class="asset-arrow asset-arrow--prev" aria-label="Previous asset">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <path d="M18 4L8 14L18 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M18 4L8 14L18 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
             <button class="asset-arrow asset-arrow--next" aria-label="Next asset">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <path d="M10 4L20 14L10 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M10 4L20 14L10 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
-            <div class="asset-counter"><span class="asset-counter-current">1</span> / <span
-                class="asset-counter-total">6</span></div>
+            <div class="asset-counter"><span class="asset-counter-current">1</span> / <span class="asset-counter-total">6</span></div>
           </div>
           <div class="slide-info">
             <h2 class="slide-title">Bucéfalo</h2>
-            <p class="slide-desc">Branding para consultora de una marca que se dedica a VPO y viviendas de cooperativa.
-            </p>
+            <p class="slide-desc">Branding para una consultora estratégica de negocio.</p>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Project: Onecar -->
-        <div class="project-panel" data-project="onecar" id="panel-onecar">
+    <!-- ─── BLOCK 5: Project Onecar ───────────────────────────────── -->
+    <section id="project-onecar" class="snap-section projects" aria-label="Project Onecar">
+      <div class="project-tabs">
+        <button class="project-tab" data-project="aequs">Aequs</button>
+        <button class="project-tab" data-project="distritozeta">Distritozeta</button>
+        <button class="project-tab" data-project="bucefalo">Bucéfalo</button>
+        <button class="project-tab active" data-project="onecar">Onecar</button>
+      </div>
+      <div class="projects-viewport">
+        <div class="project-panel active" data-project="onecar">
           <div class="asset-carousel">
             <div class="asset-track" data-assets='[
               {"type":"video","src":"assets/04_onecar/01_Onecar_Landing.mp4"},
@@ -188,39 +188,22 @@
             ]'>
             </div>
             <button class="asset-arrow asset-arrow--prev" aria-label="Previous asset">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <path d="M18 4L8 14L18 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M18 4L8 14L18 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
             <button class="asset-arrow asset-arrow--next" aria-label="Next asset">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <path d="M10 4L20 14L10 24" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                  stroke-linejoin="round" />
-              </svg>
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M10 4L20 14L10 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
-            <div class="asset-counter"><span class="asset-counter-current">1</span> / <span
-                class="asset-counter-total">6</span></div>
+            <div class="asset-counter"><span class="asset-counter-current">1</span> / <span class="asset-counter-total">6</span></div>
           </div>
           <div class="slide-info">
             <h2 class="slide-title">Onecar</h2>
-            <p class="slide-desc">Branding para consultora de una marca que se dedica a VPO y viviendas de cooperativa.
-            </p>
+            <p class="slide-desc">Branding para una plataforma de compra-venta de coches.</p>
           </div>
         </div>
-
-      </div>
-
-      <!-- Project auto-carousel progress -->
-      <div class="project-progress">
-        <span class="project-progress-bar active" data-project="aequs"></span>
-        <span class="project-progress-bar" data-project="distritozeta"></span>
-        <span class="project-progress-bar" data-project="bucefalo"></span>
-        <span class="project-progress-bar" data-project="onecar"></span>
       </div>
     </section>
 
-    <!-- ─── BLOCK 3: Contact & Footer ─────────────────────────────── -->
+    <!-- ─── BLOCK 6: Contact & Footer ─────────────────────────────── -->
     <section id="contact" class="snap-section contact" aria-label="Contact">
       <div class="contact-inner">
         <div class="contact-container">
@@ -276,7 +259,7 @@
 
   </main>
 
-  <script src="main.js"></script>
+  <script src="main.js?v=2"></script>
 </body>
 
 </html>

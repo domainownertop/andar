@@ -135,10 +135,12 @@ input, textarea {
 .snap-section {
   height: 100vh;
   height: 100dvh;
+  min-height: 100vh;
   scroll-snap-align: start;
   scroll-snap-stop: always;
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -305,12 +307,15 @@ input, textarea {
 }
 
 .hero-title {
-  font-size: clamp(4rem, 12vw, 14rem);
+  font-size: clamp(3rem, 8.5vw, 14rem);
   font-weight: 200;
-  letter-spacing: 0.02em;
-  line-height: 0.95;
+  letter-spacing: -0.03em;
+  line-height: 0.85;
   color: var(--white);
-  white-space: nowrap;
+  max-width: 100%;
+  text-wrap: balance;
+  word-wrap: break-word;
+  hyphens: auto;
   animation: heroFadeUp 1s var(--ease-smooth) both;
   animation-delay: 0.3s;
 }
@@ -786,8 +791,8 @@ input, textarea {
   }
 
   .hero-title {
-    white-space: normal;
-    word-break: break-word;
+    font-size: clamp(2.5rem, 15vw, 4rem);
+    text-wrap: balance;
   }
 
   .project-tabs {

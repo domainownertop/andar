@@ -13,19 +13,14 @@
   var snapContainer = document.getElementById('snap-container');
   var tabs = document.querySelectorAll('.project-tab');
   var panels = document.querySelectorAll('.project-panel');
-  var progressBars = document.querySelectorAll('.project-progress-bar');
   var contactForm = document.getElementById('contact-form');
   var mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
 
   // ── State ───────────────────────────────────────────────────────
-  var currentProject = 0;
-  var totalProjects = panels.length;
-  var autoPlayTimer = null;
-  var AUTO_PLAY_INTERVAL = 12000; // 12 seconds — much slower
   var assetIndices = {}; // track current asset index per project
 
-  // Project keys in order
-  var projectKeys = ['aequs', 'distritozeta', 'bucefalo', 'onecar'];
+  // Project IDs in order
+  var projectIds = ['project-aequs', 'project-distritozeta', 'project-bucefalo', 'project-onecar'];
 
   // ═══════════════════════════════════════════════════════════════
   // HEADER THEME BASED ON VISIBLE SECTION
@@ -48,7 +43,7 @@
 
     header.classList.remove('dark', 'scrolled');
 
-    if (activeSection.id === 'projects') {
+    if (activeSection.classList.contains('projects') || activeSection.id === 'projects') {
       header.classList.add('dark');
     }
     // On hero or contact (gold), no dark class
@@ -112,9 +107,18 @@
    */
   function initAssets(panel) {
     var track = panel.querySelector('.asset-track');
-    if (track.dataset.initialized === 'true') return;
+    if (!track || track.dataset.initialized === 'true') return;
 
-    var assets = JSON.parse(track.dataset.assets);
+    var assets = [];
+    try {
+      assets = JSON.parse(track.dataset.assets || '[]');
+    } catch (e) {
+      console.error('Error parsing assets for panel:', panel, e);
+      return;
+    }
+
+    if (assets.length === 0) return;
+
     var projectKey = panel.dataset.project;
     assetIndices[projectKey] = 0;
 
@@ -139,7 +143,7 @@
       } else {
         var img = document.createElement('img');
         img.src = asset.src;
-        img.alt = projectKey + ' asset ' + (i + 1);
+        img.alt = (projectKey || 'project') + ' asset ' + (i + 1);
         img.loading = (i === 0) ? 'eager' : 'lazy';
         div.appendChild(img);
       }
@@ -232,117 +236,50 @@
     }, { passive: true });
   });
 
-  // ═══════════════════════════════════════════════════════════════
-  // PROJECT CAROUSEL (auto-rotating between projects)
-  // ═══════════════════════════════════════════════════════════════
+  /**
+   * Navigate to a project block by ID
+   */
+  function scrollToProject(projectId) {
+    console.log('Scrolling to:', projectId);
+    var target = document.getElementById(projectId);
+    if (!target) return;
 
-  function pauseAllVideos() {
-    document.querySelectorAll('.project-panel video').forEach(function (v) {
-      v.pause();
-    });
-  }
+    if (snapContainer && snapContainer.scrollHeight > snapContainer.clientHeight) {
+      var containerRect = snapContainer.getBoundingClientRect();
+      var targetRect = target.getBoundingClientRect();
+      var relativeTop = targetRect.top - containerRect.top + snapContainer.scrollTop;
 
-  function goToProject(index) {
-    if (index < 0 || index >= totalProjects) index = 0;
-
-    // Pause videos on current panel
-    pauseAllVideos();
-
-    currentProject = index;
-
-    // Update panels
-    panels.forEach(function (p, i) {
-      p.classList.toggle('active', i === currentProject);
-    });
-
-    // Update tabs
-    tabs.forEach(function (t, i) {
-      t.classList.toggle('active', i === currentProject);
-    });
-
-    // Update progress bars
-    progressBars.forEach(function (bar, i) {
-      bar.classList.remove('active', 'completed');
-      if (i < currentProject) {
-        bar.classList.add('completed');
-      } else if (i === currentProject) {
-        bar.classList.add('active');
-      }
-    });
-
-    // Initialize assets for the new panel
-    var activePanel = panels[currentProject];
-    initAssets(activePanel);
-
-    // Reset asset to first
-    var projectKey = projectKeys[currentProject];
-    var track = activePanel.querySelector('.asset-track');
-    var items = track.querySelectorAll('.asset-item');
-
-    // Reset to first asset
-    items.forEach(function (item, i) {
-      item.classList.toggle('active', i === 0);
-      var vid = item.querySelector('video');
-      if (vid) vid.pause();
-    });
-    assetIndices[projectKey] = 0;
-
-    var counterEl = activePanel.querySelector('.asset-counter-current');
-    if (counterEl) counterEl.textContent = '1';
-
-    // Play first video
-    var firstVideo = items[0] ? items[0].querySelector('video') : null;
-    if (firstVideo) {
-      firstVideo.currentTime = 0;
-      firstVideo.play().catch(function () {});
+      snapContainer.scrollTo({
+        top: relativeTop,
+        behavior: 'smooth'
+      });
+    } else {
+      // Fallback for window scroll
+      target.scrollIntoView({ behavior: 'smooth' });
     }
-
-    // Reset autoplay timer
-    resetAutoPlay();
   }
 
-  // Tab clicks
-  tabs.forEach(function (tab, i) {
-    tab.addEventListener('click', function () {
-      goToProject(i);
+  // Tab clicks: scroll to the relevant section
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function (e) {
+      e.preventDefault();
+      var projectKey = tab.dataset.project;
+      console.log('Tab clicked:', projectKey, 'Current active:', tab.classList.contains('active'));
+
+      if (tab.classList.contains('active')) {
+        return;
+      }
+      
+      scrollToProject('project-' + projectKey);
     });
   });
 
-  // Auto-play: rotate projects slowly
-  function startAutoPlay() {
-    autoPlayTimer = setInterval(function () {
-      var next = (currentProject + 1) % totalProjects;
-      goToProject(next);
-    }, AUTO_PLAY_INTERVAL);
-  }
-
-  function pauseAutoPlay() {
-    clearInterval(autoPlayTimer);
-  }
-
-  function resetAutoPlay() {
-    pauseAutoPlay();
-    // Restart progress bar animation
-    var activeBar = progressBars[currentProject];
-    if (activeBar) {
-      activeBar.classList.remove('active');
-      // Force reflow to restart CSS animation
-      void activeBar.offsetWidth;
-      activeBar.classList.add('active');
-    }
-    startAutoPlay();
-  }
-
-  // Set CSS variable for progress bar duration
-  document.documentElement.style.setProperty('--auto-play-duration', AUTO_PLAY_INTERVAL + 'ms');
-
-  // Initialize first project
-  goToProject(0);
-
-  // Pause autoplay when hovering projects section
-  var projectsSection = document.getElementById('projects');
-  projectsSection.addEventListener('mouseenter', pauseAutoPlay);
-  projectsSection.addEventListener('mouseleave', resetAutoPlay);
+  // Initialize all project assets on load
+  console.log('Found panels:', panels.length);
+  panels.forEach(function (panel, idx) {
+    console.log('Initializing panel', idx, panel.dataset.project);
+    initAssets(panel);
+  });
 
   // ═══════════════════════════════════════════════════════════════
   // SCROLL ANIMATIONS (Intersection Observer)
