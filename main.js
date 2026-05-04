@@ -34,17 +34,18 @@
 
     var activeSection = null;
     sections.forEach(function (sec) {
+      sec.classList.remove('active'); // Limpiamos primero
       if (sec.offsetTop <= midPoint && sec.offsetTop + sec.offsetHeight > midPoint) {
         activeSection = sec;
       }
     });
-
-    if (!activeSection) return;
-
-    header.classList.remove('dark', 'scrolled');
-
-    if (activeSection.classList.contains('projects') || activeSection.id === 'projects') {
-      header.classList.add('dark');
+    
+    if (activeSection) {
+      activeSection.classList.add('active'); // Marcamos la actual
+      header.classList.remove('dark', 'scrolled');
+      if (activeSection.classList.contains('projects')) {
+        header.classList.add('dark');
+      }
     }
     // On hero or contact (gold), no dark class
   }
@@ -151,6 +152,16 @@
       track.appendChild(div);
     });
 
+    // Create indicators (segments)
+    var indicatorsContainer = document.createElement('div');
+    indicatorsContainer.className = 'asset-indicators';
+    assets.forEach(function (_, i) {
+      var dot = document.createElement('div');
+      dot.className = 'indicator-segment' + (i === 0 ? ' active' : '');
+      indicatorsContainer.appendChild(dot);
+    });
+    panel.querySelector('.slide-info').appendChild(indicatorsContainer);
+
     track.dataset.initialized = 'true';
 
     // Start first video if applicable
@@ -196,6 +207,12 @@
       nextVideo.currentTime = 0;
       nextVideo.play().catch(function () {});
     }
+
+    // Update indicators
+    var indicators = panel.querySelectorAll('.indicator-segment');
+    indicators.forEach(function (dot, i) {
+      dot.classList.toggle('active', i === next);
+    });
   }
 
   // Wire up asset arrows for all panels
@@ -360,4 +377,6 @@
     });
   }
 
+  // Initialize
+  updateHeaderTheme();
 })();

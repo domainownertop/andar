@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description"
     content="ANDAR — Ideas for good. Agencia creativa especializada en branding, diseño y estrategia digital en Málaga.">
-  <meta name="theme-color" content="#E8B517">
+  <meta name="theme-color" content="#ffc629">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <title>ANDAR — Ideas for good</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,20 +21,7 @@
   <!-- ═══════════════════════════════════════════════════════════════ -->
   <!-- FIXED HEADER (visible on all blocks)                          -->
   <!-- ═══════════════════════════════════════════════════════════════ -->
-  <header class="header" id="header">
-    <a href="#hero" class="logo" aria-label="ANDAR Home">
-      <span class="logo-text">ANDAR</span>
-    </a>
-    <nav class="nav" aria-label="Main navigation">
-      <a href="#project-aequs" class="nav-link nav-link--pill" id="nav-proyectos">Proyectos</a>
-      <a href="#contact" class="nav-link" id="nav-quienes">Quienes somos</a>
-      <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </nav>
-  </header>
+
 
   <!-- Mobile Nav Overlay -->
   <div class="mobile-nav-overlay" id="mobile-nav-overlay">
@@ -52,9 +39,24 @@
 
     <!-- ─── BLOCK 1: Hero ─────────────────────────────────────────── -->
     <section id="hero" class="snap-section hero" aria-label="Hero">
+      <header class="header" id="header">
+        <a href="#hero" class="logo" aria-label="ANDAR Home">
+          <img src="logo.webp" alt="ANDAR" class="logo-img">
+        </a>
+        <nav class="nav" aria-label="Main navigation">
+          <a href="#project-aequs" class="nav-link nav-link--pill" id="nav-proyectos">Proyectos</a>
+          <a href="#contact" class="nav-link" id="nav-quienes">Quienes somos</a>
+          <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </nav>
+      </header>
       <div class="hero-content">
         <h1 class="hero-title">
-          <span class="hero-title--bold">IDEAS</span> FOR GOOD
+          <span class="hero-title--bold">IDEAS</span>
+          <span class="hero-title--thin">FOR GOOD</span>
         </h1>
       </div>
     </section>
@@ -270,19 +272,24 @@
         <footer class="footer" aria-label="Footer">
           <div class="footer-container">
             <div class="footer-brand">
-              <span class="footer-logo">ANDAR</span>
+              <img src="logo.webp" alt="ANDAR" class="logo-img footer-logo-img">
             </div>
             <div class="footer-address">
               <p>C/ Córdoba 6, Planta 03 Oficina 310</p>
               <p>29001 Málaga</p>
             </div>
-            <div class="footer-links">
-              <a href="https://www.instagram.com/andarcreative/" target="_blank" rel="noopener noreferrer"
-                aria-label="Instagram" class="footer-social">Instagram</a>
-              <a href="https://www.facebook.com/AgenciaAndarCreative" target="_blank" rel="noopener noreferrer"
-                aria-label="Facebook" class="footer-social">Facebook</a>
-              <a href="https://www.linkedin.com/company/andarcreative/" target="_blank" rel="noopener noreferrer"
-                aria-label="LinkedIn" class="footer-social">LinkedIn</a>
+            <div class="footer-links-group">
+              <div class="footer-links">
+                <a href="https://www.instagram.com/andarcreative/" target="_blank" rel="noopener noreferrer"
+                  aria-label="Instagram" class="footer-social">Instagram</a>
+                <a href="https://www.facebook.com/AgenciaAndarCreative" target="_blank" rel="noopener noreferrer"
+                  aria-label="Facebook" class="footer-social">Facebook</a>
+                <a href="https://www.linkedin.com/company/andarcreative/" target="_blank" rel="noopener noreferrer"
+                  aria-label="LinkedIn" class="footer-social">LinkedIn</a>
+              </div>
+              <div class="footer-contact">
+                <span class="footer-email">Contacto: cuentas@andarcreative.com</span>
+              </div>
             </div>
           </div>
         </footer>
