@@ -28,29 +28,42 @@
 
   function updateHeaderTheme() {
     var sections = snapContainer.querySelectorAll('.snap-section');
-    var scrollTop = snapContainer.scrollTop;
-    var viewportH = snapContainer.clientHeight;
+    var isMobile = window.innerWidth <= 768;
+    
+    // In mobile, we might be scrolling the window instead of the container
+    var scrollTop = isMobile ? window.scrollY : snapContainer.scrollTop;
+    var viewportH = isMobile ? window.innerHeight : snapContainer.clientHeight;
     var midPoint = scrollTop + viewportH / 2;
 
     var activeSection = null;
     sections.forEach(function (sec) {
-      sec.classList.remove('active'); // Limpiamos primero
-      if (sec.offsetTop <= midPoint && sec.offsetTop + sec.offsetHeight > midPoint) {
+      // No active class removal/addition here if we want everything visible, 
+      // but we need it for the header theme.
+      var secTop = isMobile ? sec.getBoundingClientRect().top + window.scrollY : sec.offsetTop;
+      var secHeight = sec.offsetHeight;
+
+      if (secTop <= midPoint && secTop + secHeight > midPoint) {
         activeSection = sec;
       }
     });
     
     if (activeSection) {
-      activeSection.classList.add('active'); // Marcamos la actual
+      activeSection.classList.add('active'); 
       header.classList.remove('dark', 'scrolled');
+      
+      // If we've scrolled past hero, add 'scrolled' class for background
+      if (scrollTop > 50) {
+        header.classList.add('scrolled');
+      }
+
       if (activeSection.classList.contains('projects')) {
         header.classList.add('dark');
       }
     }
-    // On hero or contact (gold), no dark class
   }
 
   snapContainer.addEventListener('scroll', updateHeaderTheme, { passive: true });
+  window.addEventListener('scroll', updateHeaderTheme, { passive: true });
 
   // ═══════════════════════════════════════════════════════════════
   // MOBILE NAVIGATION
@@ -122,6 +135,20 @@
 
     var projectKey = panel.dataset.project;
     assetIndices[projectKey] = 0;
+
+    // Create Backdrop Blur
+    var backdrop = document.createElement('div');
+    backdrop.className = 'project-backdrop';
+    
+    // Find first image for backdrop
+    var firstImage = assets.find(function(a) { return a.type === 'image'; });
+    if (firstImage) {
+      backdrop.style.backgroundImage = 'url(' + firstImage.src + ')';
+    } else if (assets[0]) {
+      // Fallback to first asset if no image (though unlikely here)
+      backdrop.style.backgroundImage = 'url(' + assets[0].src + ')';
+    }
+    panel.insertBefore(backdrop, panel.firstChild);
 
     // Update total counter
     var totalEl = panel.querySelector('.asset-counter-total');

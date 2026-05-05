@@ -97,7 +97,8 @@ button {
   color: inherit;
 }
 
-input, textarea {
+input,
+textarea {
   font-family: inherit;
   font-size: inherit;
   color: inherit;
@@ -146,15 +147,15 @@ input, textarea {
 }
 
 /* El contenido de cada sección aparecerá suavemente */
-.snap-section > div,
-.snap-section > header {
+.snap-section>div,
+.snap-section>header {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 1s var(--ease-smooth), transform 1s var(--ease-smooth);
 }
 
-.snap-section.active > div,
-.snap-section.active > header {
+.snap-section.active>div,
+.snap-section.active>header {
   opacity: 1;
   transform: translateY(0);
 }
@@ -197,11 +198,13 @@ input, textarea {
 }
 
 .logo-img {
-  height: 60px; /* Tamaño mucho más prominente */
+  height: 60px;
+  /* Tamaño mucho más prominente */
   width: auto;
   display: block;
   transition: transform var(--transition-fast);
-  image-rendering: -webkit-optimize-contrast; /* Truco para mejorar la nitidez en algunos navegadores */
+  image-rendering: -webkit-optimize-contrast;
+  /* Truco para mejorar la nitidez en algunos navegadores */
   image-rendering: crisp-edges;
 }
 
@@ -322,8 +325,10 @@ input, textarea {
 .hero-content {
   flex: 1;
   display: flex;
-  align-items: center; /* Centrado vertical */
-  justify-content: center; /* Centrado horizontal */
+  align-items: center;
+  /* Centrado vertical */
+  justify-content: center;
+  /* Centrado horizontal */
   padding: 0 var(--space-lg);
 }
 
@@ -354,7 +359,8 @@ input, textarea {
 }
 
 .hero-title--thin {
-  font-weight: 100; /* Peso extra fino como en el prototipo */
+  font-weight: 100;
+  /* Peso extra fino como en el prototipo */
   color: var(--white);
 }
 
@@ -363,6 +369,7 @@ input, textarea {
     opacity: 0;
     transform: translateY(40px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -447,6 +454,23 @@ input, textarea {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.6s var(--ease-smooth);
+  overflow: hidden;
+}
+
+.project-backdrop {
+  position: absolute;
+  inset: -20px;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(80px) brightness(0.4);
+  opacity: 0;
+  transition: opacity 1s var(--ease-smooth);
+  pointer-events: none;
+}
+
+.project-panel.active .project-backdrop {
+  opacity: 0.6;
 }
 
 .project-panel.active {
@@ -502,7 +526,8 @@ input, textarea {
   color: var(--gold);
   z-index: 10;
   transition: all var(--transition-fast);
-  background: transparent; /* Sin fondo para un look más limpio */
+  background: transparent;
+  /* Sin fondo para un look más limpio */
   border-radius: 0;
 }
 
@@ -572,14 +597,17 @@ input, textarea {
   width: 100%;
   gap: 10px;
   margin-top: var(--space-lg);
-  flex-basis: 100%; /* Asegura que ocupe toda la línea inferior */
+  flex-basis: 100%;
+  /* Asegura que ocupe toda la línea inferior */
 }
 
 .indicator-segment {
   flex: 1;
   height: 2px;
-  background: var(--gold); /* Amarillo de la marca para los inactivos */
-  opacity: 0.4; /* Reducimos un poco la opacidad para que el activo destaque aún más */
+  background: var(--gold);
+  /* Amarillo de la marca para los inactivos */
+  opacity: 0.4;
+  /* Reducimos un poco la opacidad para que el activo destaque aún más */
   transition: background var(--transition-base), transform var(--transition-base), opacity var(--transition-base);
 }
 
@@ -803,6 +831,13 @@ input, textarea {
     --header-height: 64px;
   }
 
+  html,
+  body {
+    overflow: visible;
+    overflow-y: auto;
+    height: auto;
+  }
+
   .nav-link {
     display: none;
   }
@@ -811,8 +846,60 @@ input, textarea {
     display: flex;
   }
 
+  .snap-container {
+    height: auto;
+    overflow-y: visible;
+    scroll-snap-type: none;
+    display: block;
+  }
+
+  .snap-section {
+    height: auto;
+    min-height: auto;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+    overflow: visible;
+    position: relative;
+    padding-top: 0;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .snap-section>div,
+  .snap-section>header {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .hero {
+    min-height: 70vh;
+    /* Reduced ~30% from 100vh */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .hero-content {
-    padding-bottom: var(--space-xl);
+    padding-bottom: 0;
+    flex: 0 0 auto;
+  }
+
+  .hero-title {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    line-height: 0.9;
+  }
+
+  .hero-title--bold {
+    font-size: 6rem;
+    font-weight: 800;
+  }
+
+  .hero-title--thin {
+    font-size: 6rem;
+    font-weight: 100;
   }
 
   .hero-title {
@@ -821,17 +908,35 @@ input, textarea {
     padding: 0 var(--space-md);
   }
 
-  .project-tabs {
-    padding: 0 var(--space-sm);
-    justify-content: flex-start;
-    gap: var(--space-xs);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  .projects {
+    padding-bottom: 0;
+    background: var(--black);
   }
 
-  .project-tab {
-    font-size: 0.85rem;
-    padding: 1.25rem var(--space-md);
-    flex: 0 0 auto;
+  .project-tabs {
+    display: none;
+    /* We'll remove these from mobile to avoid clutter */
+  }
+
+  .projects-viewport {
+    overflow: visible;
+    height: auto;
+  }
+
+  .project-panel {
+    position: relative;
+    opacity: 1 !important;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 0;
+    /* Integrated blocks */
+  }
+
+  .project-backdrop {
+    display: none;
+    /* No backdrop needed for the list view */
   }
 
   .project-tab::after {
@@ -839,21 +944,78 @@ input, textarea {
     width: 60%;
   }
 
-  .slide-info {
-    padding: var(--space-md) var(--space-lg);
-    background: linear-gradient(to top, var(--black), transparent);
-    margin-top: -60px; /* Overlay on video slightly */
-    z-index: 5;
-    position: relative;
-    pointer-events: none;
-  }
-  
-  .slide-info > * {
-    pointer-events: auto;
+  .asset-carousel {
+    flex: 0 0 auto;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    max-height: none;
+    margin-top: 0;
   }
 
-  .project-progress {
-    padding: 0 var(--space-md) var(--space-sm);
+  .slide-info {
+    padding: var(--space-lg) var(--space-lg) var(--space-2xl);
+    background: var(--black);
+    text-align: left;
+    align-items: flex-start;
+    flex: 0 0 auto;
+    width: 100%;
+  }
+
+  .slide-title {
+    font-size: 4rem;
+    /* Matching the large thin look in Image 1 */
+    font-weight: 100;
+    color: var(--white);
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+  }
+
+  .slide-desc {
+    font-size: 1.1rem;
+    font-weight: 100;
+    color: var(--white);
+    line-height: 1.2;
+    max-width: 90%;
+    opacity: 0.8;
+  }
+
+  .asset-indicators {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    margin-top: var(--space-lg);
+    padding: 0;
+  }
+
+  .indicator-segment {
+    height: 2px;
+    background: var(--brand-yellow);
+    flex: 1;
+    transition: background 0.3s var(--ease-smooth);
+  }
+
+  .indicator-segment.active {
+    background: var(--white);
+  }
+
+  .asset-counter {
+    display: none;
+    /* Hide numeric counter to keep it strictly visual like the mockup */
+  }
+
+  .contact {
+    min-height: 100vh;
+    justify-content: flex-start;
+    padding-top: var(--space-2xl);
+  }
+
+  .contact-inner {
+    justify-content: flex-start;
+  }
+
+  .contact-container {
+    padding: var(--space-xl) var(--space-md);
   }
 
   .asset-track .asset-item img,
@@ -861,7 +1023,7 @@ input, textarea {
     object-fit: contain !important;
     width: 100% !important;
     height: 100% !important;
-    background-color: var(--black);
+    background-color: transparent;
   }
 
   .asset-arrow {
@@ -896,11 +1058,26 @@ input, textarea {
 
   .footer-container {
     flex-direction: column;
-    gap: var(--space-md);
+    gap: var(--space-lg);
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-brand,
+  .footer-address {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-address p {
+    margin: 0;
   }
 
   .footer {
-    padding: var(--space-sm) var(--space-md);
+    padding: var(--space-xl) var(--space-md);
   }
 }
 
@@ -937,6 +1114,7 @@ input, textarea {
    REDUCED MOTION
    ═══════════════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
