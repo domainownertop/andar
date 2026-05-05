@@ -458,19 +458,7 @@ textarea {
 }
 
 .project-backdrop {
-  position: absolute;
-  inset: -20px;
-  z-index: 0;
-  background-size: cover;
-  background-position: center;
-  filter: blur(80px) brightness(0.4);
-  opacity: 0;
-  transition: opacity 1s var(--ease-smooth);
-  pointer-events: none;
-}
-
-.project-panel.active .project-backdrop {
-  opacity: 0.6;
+  display: none;
 }
 
 .project-panel.active {
@@ -566,12 +554,15 @@ textarea {
 
 /* ── Slide Info ────────────────────────────────────────────────── */
 .slide-info {
+  background: var(--black);
   display: flex;
   align-items: baseline;
   gap: var(--space-md);
   padding: var(--space-md) var(--space-lg);
   flex-shrink: 0;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 5;
 }
 
 .slide-title {
@@ -585,7 +576,7 @@ textarea {
 .slide-desc {
   font-size: 0.95rem;
   font-weight: 300;
-  color: var(--grey);
+  color: var(--white);
   max-width: 400px;
   line-height: 1.6;
 }
@@ -990,13 +981,15 @@ textarea {
 
   .indicator-segment {
     height: 2px;
-    background: var(--brand-yellow);
+    background: var(--gold);
+    opacity: 0.4;
     flex: 1;
-    transition: background 0.3s var(--ease-smooth);
+    transition: background 0.3s var(--ease-smooth), opacity 0.3s var(--ease-smooth);
   }
 
   .indicator-segment.active {
     background: var(--white);
+    opacity: 1;
   }
 
   .asset-counter {
