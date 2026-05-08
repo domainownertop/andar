@@ -649,68 +649,9 @@ textarea {
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   BLOCK 3: CONTACT & FOOTER
+   BLOCK 6: CONTACT & FOOTER
    ═══════════════════════════════════════════════════════════════════ */
 
-.contact {
-  background: var(--gold);
-  display: flex;
-  flex-direction: column;
-}
-
-.contact-inner {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.contact-container {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-xl);
-  align-items: start;
-  padding: var(--space-xl) var(--space-lg);
-  flex: 1;
-  align-content: center;
-}
-
-.contact-title {
-  font-size: clamp(3rem, 8vw, 7rem);
-  font-weight: 200;
-  color: var(--black);
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.form-group input,
-.form-group textarea {
-  width: 100%;
-  padding: 1rem 1.25rem;
-  background: var(--white-off);
-  border-radius: var(--radius-md);
-  font-size: 1rem;
-  font-weight: 300;
-  color: var(--black);
-  transition: box-shadow var(--transition-fast), transform var(--transition-fast);
-}
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-  color: var(--grey);
-  font-weight: 300;
-}
-
-.form-group input:focus,
 /* ── Contact Section ───────────────────────────────────────────── */
 .contact {
   background: #FFC629;
@@ -724,7 +665,8 @@ textarea {
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: var(--space-2xl) var(--space-lg) var(--space-xl);
+  justify-content: center;
+  padding: var(--space-3xl) var(--space-lg) var(--space-xl);
   height: 100%;
 }
 
