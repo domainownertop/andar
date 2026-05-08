@@ -2,21 +2,6 @@
    ANDAR — Design System & Global Styles
    ═══════════════════════════════════════════════════════════════════ */
 
-/* ── Fonts ─────────────────────────────────────────────────────── */
-@font-face {
-  font-family: 'GT America';
-  src: url('fonts/GT-America-Thin.otf') format('opentype');
-  font-weight: 100;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'GT America';
-  src: url('fonts/GT-America-Ultra-Light.otf') format('opentype');
-  font-weight: 200;
-  font-style: normal;
-}
-
 @font-face {
   font-family: 'GT America';
   src: url('fonts/GT-America-Light.otf') format('opentype');
@@ -26,50 +11,15 @@
 
 @font-face {
   font-family: 'GT America';
-  src: url('fonts/GT-America-Regular.otf') format('opentype');
-  font-weight: 400;
+  src: url('fonts/GT-America-Thin.otf') format('opentype');
+  font-weight: 275;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'GT America';
-  src: url('fonts/GT-America-Medium.otf') format('opentype');
-  font-weight: 500;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'GT America';
-  src: url('fonts/GT-America-Bold.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'GT America';
-  src: url('fonts/GT-America-Black.otf') format('opentype');
-  font-weight: 800;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'GT America';
-  src: url('fonts/GT-America-Black.otf') format('opentype');
-  font-weight: 900;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'GT America Compressed';
-  src: url('fonts/GT-America-Compressed-Light.otf') format('opentype');
-  font-weight: 300;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'GT America Compressed';
-  src: url('fonts/GT-America-Compressed-Regular.otf') format('opentype');
-  font-weight: 400;
+  src: url('fonts/GT-America-Ultra-Light 2.otf') format('opentype');
+  font-weight: 250;
   font-style: normal;
 }
 
@@ -87,7 +37,7 @@
   --grey-light: #E0E0E0;
 
   /* Typography */
-  --font-primary: 'GT America', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   /* Spacing */
   --space-xs: 0.5rem;
@@ -290,9 +240,11 @@ textarea {
 }
 
 .nav-link {
-  font-size: 1.2rem;
-  font-weight: 100;
-  letter-spacing: 0.05em;
+  font-family: 'GT America', sans-serif;
+  font-size: 16px;
+  font-weight: 275;
+  letter-spacing: -0.05em;
+  line-height: 1;
   color: var(--white);
   padding: var(--space-xs) var(--space-sm);
   transition: all var(--transition-fast);
@@ -300,10 +252,10 @@ textarea {
 
 .nav-link--pill {
   background: var(--white);
-  color: var(--black);
+  color: #000000;
   border-radius: var(--radius-pill);
-  padding: 0.8rem 2.4rem;
-  font-weight: 200;
+  padding: 0.6rem 1.8rem;
+  font-weight: 275;
 }
 
 .nav-link--pill:hover {
@@ -404,35 +356,38 @@ textarea {
 }
 
 .hero-title {
-  font-size: clamp(3rem, 11vw, 15rem);
-  font-weight: 300;
-  letter-spacing: -0.02em;
-  line-height: 0.9;
-  color: var(--white);
-  text-align: center;
-  max-width: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   animation: heroFadeUp 1s var(--ease-smooth) both;
   animation-delay: 0.3s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
-@media (min-width: 1024px) {
-  .hero-title {
-    flex-direction: row;
-    gap: 0.15em;
+.hero-title-img {
+  width: 100%;
+  height: auto;
+  max-width: 1200px;
+  display: block;
+}
+
+.hero-title-img--desktop {
+  display: block;
+}
+
+.hero-title-img--mobile {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .hero-title-img--desktop {
+    display: none;
   }
-}
 
-.hero-title--bold {
-  font-weight: 800;
-}
-
-.hero-title--thin {
-  font-weight: 100;
-  /* Peso extra fino como en el prototipo */
-  color: var(--white);
+  .hero-title-img--mobile {
+    display: block;
+    max-width: 90vw;
+  }
 }
 
 @keyframes heroFadeUp {
@@ -475,11 +430,12 @@ textarea {
   flex: 1;
   min-width: max-content;
   padding: var(--space-md) var(--space-lg);
-  font-family: 'GT America Compressed', var(--font-primary);
-  font-size: 1.4rem;
+  font-family: 'GT America', sans-serif;
+  font-size: 26px;
   font-weight: 300;
-  letter-spacing: 0.02em;
-  color: var(--white);
+  letter-spacing: -0.05em;
+  line-height: 1;
+  color: #FFFFFF;
   position: relative;
   transition: all var(--transition-base);
   white-space: nowrap;
@@ -508,6 +464,17 @@ textarea {
 
 .project-tab:hover {
   background: rgba(255, 255, 255, 0.08);
+}
+
+.project-tabs--hero {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: transparent;
+  /* Already in gold hero background */
+}
+
+.project-tabs--hero .project-tab::after {
+  display: none;
+  /* No active project in hero */
 }
 
 /* ── Projects Viewport ─────────────────────────────────────────── */
@@ -626,31 +593,50 @@ textarea {
 
 /* ── Slide Info ────────────────────────────────────────────────── */
 .slide-info {
-  background: var(--black);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--space-xl) var(--space-lg) var(--space-lg);
+  flex-shrink: 0;
+  z-index: 5;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 60%, transparent 100%);
+  pointer-events: none;
+}
+
+.slide-text-content {
   display: flex;
   align-items: baseline;
-  gap: var(--space-md);
-  padding: var(--space-md) var(--space-lg);
-  flex-shrink: 0;
-  flex-wrap: wrap;
-  position: relative;
-  z-index: 5;
+  gap: 40px;
+  flex-wrap: nowrap;
 }
 
 .slide-title {
-  font-size: clamp(1.8rem, 4vw, 3rem);
-  font-weight: 200;
-  letter-spacing: 0.01em;
+  font-family: 'GT America', sans-serif;
+  font-size: 96px;
+  font-weight: 250;
+  letter-spacing: -0.1em;
   line-height: 1;
   color: var(--white);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  margin: 0;
+  white-space: nowrap;
 }
 
 .slide-desc {
-  font-size: 0.95rem;
-  font-weight: 300;
+  font-family: 'GT America', sans-serif;
+  font-size: 22px;
+  font-weight: 250;
   color: var(--white);
-  max-width: 400px;
-  line-height: 1.6;
+  max-width: 380px;
+  line-height: 1;
+  letter-spacing: -0.1em;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+  margin: 0;
+  transform: translateY(-1em);
 }
 
 /* ── Project Progress (auto-carousel) ─────────────────────────── */
@@ -659,25 +645,23 @@ textarea {
   display: flex;
   width: 100%;
   gap: 10px;
-  margin-top: var(--space-lg);
+  margin-top: 0;
   flex-basis: 100%;
-  /* Asegura que ocupe toda la línea inferior */
+  pointer-events: auto;
 }
 
 .indicator-segment {
   flex: 1;
-  height: 2px;
-  background: var(--gold);
-  /* Amarillo de la marca para los inactivos */
-  opacity: 0.4;
-  /* Reducimos un poco la opacidad para que el activo destaque aún más */
+  height: 1px;
+  background: var(--white);
+  opacity: 0.3;
   transition: background var(--transition-base), transform var(--transition-base), opacity var(--transition-base);
 }
 
 .indicator-segment.active {
-  background: var(--white);
+  background: var(--gold);
   opacity: 1;
-  transform: scaleY(1.5);
+  height: 2px;
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -743,112 +727,278 @@ textarea {
 }
 
 .form-group input:focus,
-.form-group textarea:focus {
-  box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.15);
-  transform: translateY(-1px);
+/* ── Contact Section ───────────────────────────────────────────── */
+.contact {
+  background: var(--gold);
+  color: var(--black);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.contact-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-2xl) var(--space-lg) var(--space-xl);
+  height: 100%;
+}
+
+.contact-grid {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.contact-main,
+.contact-footer {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: var(--space-xl);
+  align-items: start;
+}
+
+/* Header & Form */
+.contact-title {
+  font-size: clamp(3.5rem, 8.5vw, 9rem);
+  font-weight: 300;
+  color: var(--black);
+  line-height: 0.85;
+  letter-spacing: -0.05em;
+  margin: 0;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+  background: var(--white);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--black);
+  transition: all var(--transition-fast);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #CCC;
 }
 
 .form-group textarea {
-  resize: vertical;
-  min-height: 100px;
+  resize: none;
+  min-height: 140px;
 }
 
 .form-submit {
   width: 100%;
-  padding: 1.1rem;
+  padding: 1.4rem;
   background: var(--black);
   color: var(--white);
-  border-radius: var(--radius-lg);
-  font-size: 0.9rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
   font-weight: 400;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.6em;
+  text-transform: uppercase;
+  cursor: pointer;
   transition: all var(--transition-base);
-  position: relative;
-  overflow: hidden;
+  margin-top: 0.5rem;
 }
 
-.form-submit::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(232, 181, 23, 0.3), transparent);
-  opacity: 0;
-  transition: opacity var(--transition-base);
+.contact-footer {
+  align-items: flex-end;
+  margin-top: var(--space-2xl);
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  grid-template-areas:
+    "left right"
+    "copyright .";
 }
 
-.form-submit:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+.contact-footer-left {
+  grid-area: left;
 }
 
-.form-submit:hover::before {
-  opacity: 1;
+.contact-footer-right {
+  grid-area: right;
 }
 
-.form-submit:active {
-  transform: translateY(0);
+.contact-copyright {
+  grid-area: copyright;
 }
 
-/* ── Footer ────────────────────────────────────────────────────── */
-.footer {
-  padding: var(--space-md) var(--space-lg);
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-  flex-shrink: 0;
-}
-
-.footer-container {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--space-lg);
-}
-
-
-
-.footer-address {
-  font-size: 0.85rem;
-  font-weight: 300;
-  color: var(--black);
-  opacity: 0.7;
-  line-height: 1.7;
-}
-
-.footer-links-group {
+.contact-brand {
   display: flex;
   flex-direction: column;
-  gap: var(--space-sm);
-  align-items: flex-end;
-}
-
-.footer-links {
-  display: flex;
   gap: var(--space-md);
+  align-items: flex-start;
+  justify-self: start;
 }
 
-.footer-social,
-.footer-email {
-  font-size: 0.85rem;
+.contact-logo {
+  height: 50px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left;
+  margin-left: -8px; /* Slight adjustment for optical alignment */
+}
+
+.contact-address {
+  font-family: 'GT America', sans-serif;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.1em;
+  color: #FFFFFF;
+  margin-bottom: 0.5rem;
+}
+
+.contact-copyright {
+  font-family: 'GT America', sans-serif;
+  font-size: 30px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1;
+  letter-spacing: -0.1em;
+  margin-top: 1rem;
+}
+
+.contact-cta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.contact-cta-icon svg {
+  width: 56px;
+  height: 56px;
+  stroke: var(--black);
+}
+
+.contact-cta-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.contact-cta-label {
+  font-size: 1.3rem;
   font-weight: 400;
   color: var(--black);
-  opacity: 0.7;
 }
 
-.footer-social {
-  transition: opacity var(--transition-fast);
-  cursor: pointer;
+.contact-cta-email {
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--black);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
 }
 
-.footer-social:hover {
-  opacity: 1;
+.contact-cta-email:hover {
+  border-bottom-color: var(--black);
+}
+
+@media (max-width: 1024px) {
+
+  .contact-main,
+  .contact-footer {
+    grid-template-columns: 1fr;
+    gap: var(--space-xl);
+  }
+
+  .contact-footer {
+    align-items: flex-start;
+    gap: var(--space-2xl);
+    margin-top: var(--space-xl);
+  }
+
+  .contact-grid {
+    gap: var(--space-2xl);
+    justify-content: flex-start;
+  }
 }
 
 @media (max-width: 768px) {
-  .footer-links-group {
-    align-items: center;
-    width: 100%;
+  .contact-inner {
+    padding: var(--space-2xl) var(--space-md) var(--space-xl);
+    display: block;
+    overflow-y: auto;
+  }
+
+  .contact-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .contact-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: var(--space-3xl);
+  }
+
+  .contact-title {
+    font-size: 4.5rem;
+    margin-bottom: 2rem;
+    text-align: left;
+  }
+
+  .contact-footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+    margin-top: 0;
+    align-items: flex-start;
+  }
+
+  .contact-brand {
+    order: 1;
+  }
+
+  .contact-logo {
+    height: 44px;
+    margin-bottom: 0.5rem;
+  }
+
+  .contact-address {
+    font-size: 15px;
+  }
+
+  .contact-cta {
+    order: 2;
+    margin-top: 0.5rem;
+  }
+
+  .contact-cta-icon svg {
+    width: 44px;
+    height: 44px;
+  }
+
+  .contact-cta-email {
+    font-size: 1.2rem;
+  }
+
+  .contact-copyright {
+    order: 3;
+    margin-top: var(--space-2xl);
+    padding-bottom: 1rem;
+    font-size: 15px;
   }
 }
 
@@ -1069,19 +1219,7 @@ textarea {
     /* Hide numeric counter to keep it strictly visual like the mockup */
   }
 
-  .contact {
-    min-height: 100vh;
-    justify-content: flex-start;
-    padding-top: var(--space-2xl);
-  }
 
-  .contact-inner {
-    justify-content: flex-start;
-  }
-
-  .contact-container {
-    padding: var(--space-xl) var(--space-md);
-  }
 
   .asset-track .asset-item img,
   .asset-track .asset-item video {
@@ -1112,38 +1250,7 @@ textarea {
     right: var(--space-xs);
   }
 
-  .contact-container {
-    padding: var(--space-lg) var(--space-md);
-  }
 
-  .contact-title {
-    text-align: left;
-    font-size: 3rem;
-  }
-
-  .footer-container {
-    flex-direction: column;
-    gap: var(--space-lg);
-    align-items: center;
-    text-align: center;
-  }
-
-  .footer-brand,
-  .footer-address {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .footer-address p {
-    margin: 0;
-  }
-
-  .footer {
-    padding: var(--space-xl) var(--space-md);
-  }
 }
 
 /* ── Small Mobile ──────────────────────────────────────────────── */
@@ -1166,9 +1273,7 @@ textarea {
     padding: var(--space-xs) var(--space-sm);
   }
 
-  .contact-title {
-    font-size: 2.5rem;
-  }
+
 
   .form-submit {
     letter-spacing: 0.25em;
