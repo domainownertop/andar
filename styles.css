@@ -2,6 +2,77 @@
    ANDAR — Design System & Global Styles
    ═══════════════════════════════════════════════════════════════════ */
 
+/* ── Fonts ─────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'GT America';
+  src: url('fonts/GT-America-Thin.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GT America';
+  src: url('fonts/GT-America-Ultra-Light.otf') format('opentype');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GT America';
+  src: url('fonts/GT-America-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GT America';
+  src: url('fonts/GT-America-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GT America';
+  src: url('fonts/GT-America-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GT America';
+  src: url('fonts/GT-America-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GT America';
+  src: url('fonts/GT-America-Black.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GT America';
+  src: url('fonts/GT-America-Black.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GT America Compressed';
+  src: url('fonts/GT-America-Compressed-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'GT America Compressed';
+  src: url('fonts/GT-America-Compressed-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
 /* ── CSS Custom Properties ─────────────────────────────────────── */
 :root {
   /* Brand Colors */
@@ -16,7 +87,7 @@
   --grey-light: #E0E0E0;
 
   /* Typography */
-  --font-primary: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-primary: 'GT America', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
   /* Spacing */
   --space-xs: 0.5rem;
@@ -219,8 +290,8 @@ textarea {
 }
 
 .nav-link {
-  font-size: 0.9rem;
-  font-weight: 300;
+  font-size: 1.2rem;
+  font-weight: 100;
   letter-spacing: 0.05em;
   color: var(--white);
   padding: var(--space-xs) var(--space-sm);
@@ -231,8 +302,8 @@ textarea {
   background: var(--white);
   color: var(--black);
   border-radius: var(--radius-pill);
-  padding: 0.65rem 1.6rem;
-  font-weight: 400;
+  padding: 0.8rem 2.4rem;
+  font-weight: 200;
 }
 
 .nav-link--pill:hover {
@@ -404,9 +475,10 @@ textarea {
   flex: 1;
   min-width: max-content;
   padding: var(--space-md) var(--space-lg);
-  font-size: 1.1rem;
+  font-family: 'GT America Compressed', var(--font-primary);
+  font-size: 1.4rem;
   font-weight: 300;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.02em;
   color: var(--white);
   position: relative;
   transition: all var(--transition-base);
@@ -427,7 +499,7 @@ textarea {
 }
 
 .project-tab.active {
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .project-tab.active::after {
