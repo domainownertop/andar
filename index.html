@@ -12,9 +12,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:wght@400&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <!-- Precarga de imágenes críticas (LCP) -->
+  <link rel="preload" href="assets/ideas_for_good_desktop.svg" as="image" media="(min-width: 1024px)">
+  <link rel="preload" href="assets/ideas_for_good_mobile.svg" as="image" media="(max-width: 1023px)">
 </head>
 
 <body>
@@ -49,18 +52,16 @@
           <a href="#contact" class="nav-link" id="nav-quienes">Quienes somos</a>
           <a href="#contact" class="nav-link" id="nav-contacto">Contacto</a>
           <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu" aria-expanded="false">
-            <span></span>
-            <span></span>
-            <span></span>
+            MENU
           </button>
         </nav>
       </header>
       <div class="hero-content">
         <h1 class="hero-title">
           <img src="assets/ideas_for_good_desktop.svg" alt="IDEAS FOR GOOD"
-            class="hero-title-img hero-title-img--desktop">
+            class="hero-title-img hero-title-img--desktop" fetchpriority="high">
           <img src="assets/ideas_for_good_mobile.svg" alt="IDEAS FOR GOOD"
-            class="hero-title-img hero-title-img--mobile">
+            class="hero-title-img hero-title-img--mobile" fetchpriority="high">
         </h1>
       </div>
       <div class="project-tabs project-tabs--hero">
@@ -235,7 +236,8 @@
           <div class="contact-main">
             <div class="contact-header">
               <h2 class="contact-title">
-                <img src="assets/andamos.svg" alt="¿Andamos?" class="contact-title-img">
+                <img src="assets/andamos.svg" alt="¿Andamos?" class="contact-title-img contact-title-img--desktop">
+                <img src="assets/andamos_mobile.svg" alt="¿Andamos?" class="contact-title-img contact-title-img--mobile">
               </h2>
             </div>
             <div class="contact-body">
