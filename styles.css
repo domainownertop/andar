@@ -340,7 +340,7 @@ textarea {
    ═══════════════════════════════════════════════════════════════════ */
 
 .hero {
-  background-color: var(--gold);
+  background-color: #FFC629;
   display: flex;
   flex-direction: column;
 }
@@ -729,7 +729,7 @@ textarea {
 .form-group input:focus,
 /* ── Contact Section ───────────────────────────────────────────── */
 .contact {
-  background: var(--gold);
+  background: #FFC629;
   color: var(--black);
   display: flex;
   flex-direction: column;
@@ -764,18 +764,22 @@ textarea {
 
 /* Header & Form */
 .contact-title {
-  font-size: clamp(3.5rem, 8.5vw, 9rem);
-  font-weight: 300;
-  color: var(--black);
-  line-height: 0.85;
-  letter-spacing: -0.05em;
   margin: 0;
+  line-height: 1;
+}
+
+.contact-title-img {
+  width: 100%;
+  height: auto;
+  max-width: 540px;
+  display: block;
 }
 
 .contact-form {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  margin-top: 3.5rem;
 }
 
 .form-group input,
@@ -785,15 +789,18 @@ textarea {
   background: var(--white);
   border: none;
   border-radius: var(--radius-sm);
-  font-size: 1.1rem;
-  font-weight: 300;
+  font-family: 'GT America', sans-serif;
+  font-size: 20px;
+  font-weight: 275;
+  line-height: 1;
+  letter-spacing: -0.05em;
   color: var(--black);
   transition: all var(--transition-fast);
 }
 
 .form-group input::placeholder,
 .form-group textarea::placeholder {
-  color: #CCC;
+  color: #B7B7B7;
 }
 
 .form-group textarea {
@@ -808,9 +815,11 @@ textarea {
   color: var(--white);
   border: none;
   border-radius: var(--radius-sm);
-  font-size: 1rem;
-  font-weight: 400;
-  letter-spacing: 0.6em;
+  font-family: 'GT America', sans-serif;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1;
+
   text-transform: uppercase;
   cursor: pointer;
   transition: all var(--transition-base);
@@ -853,7 +862,8 @@ textarea {
   max-width: 100%;
   object-fit: contain;
   object-position: left;
-  margin-left: -8px; /* Slight adjustment for optical alignment */
+  margin-left: -8px;
+  /* Slight adjustment for optical alignment */
 }
 
 .contact-address {
@@ -953,10 +963,16 @@ textarea {
     margin-bottom: var(--space-3xl);
   }
 
+  .contact-form {
+    margin-top: 0;
+  }
+
   .contact-title {
-    font-size: 4.5rem;
-    margin-bottom: 2rem;
-    text-align: left;
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-title-img {
+    max-width: 90%;
   }
 
   .contact-footer {
@@ -1275,9 +1291,7 @@ textarea {
 
 
 
-  .form-submit {
-    letter-spacing: 0.25em;
-  }
+
 }
 
 /* ═══════════════════════════════════════════════════════════════════
