@@ -529,8 +529,8 @@ textarea {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 60px;
-  height: 60px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -538,7 +538,6 @@ textarea {
   z-index: 10;
   transition: all var(--transition-fast);
   background: transparent;
-  /* Sin fondo para un look más limpio */
   border-radius: 0;
 }
 
@@ -547,9 +546,13 @@ textarea {
   filter: drop-shadow(0 0 8px rgba(255, 198, 41, 0.4));
 }
 
-.asset-arrow svg {
+.asset-arrow img {
   width: 100%;
   height: 100%;
+}
+
+.asset-arrow-img--mobile {
+  display: none;
 }
 
 .asset-arrow--prev {
@@ -659,6 +662,7 @@ textarea {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  border-top: 12px solid #FFC629;
 }
 
 .contact-inner {
@@ -666,7 +670,7 @@ textarea {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: var(--space-3xl) var(--space-lg) var(--space-xl);
+  padding: var(--space-xl) var(--space-lg) var(--space-lg);
   height: 100%;
 }
 
@@ -712,8 +716,8 @@ textarea {
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
-  margin-top: 3.5rem;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
 }
 
 .form-group input,
@@ -739,7 +743,7 @@ textarea {
 
 .form-group textarea {
   resize: none;
-  min-height: 140px;
+  min-height: 100px;
 }
 
 .form-submit {
@@ -762,7 +766,7 @@ textarea {
 
 .contact-footer {
   align-items: flex-end;
-  margin-top: var(--space-2xl);
+  margin-top: var(--space-xl);
   display: grid;
   grid-template-columns: 1fr 1.2fr;
   grid-template-areas:
@@ -802,22 +806,22 @@ textarea {
 
 .contact-address {
   font-family: 'GT America', sans-serif;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 300;
-  line-height: 1;
-  letter-spacing: -0.1em;
+  line-height: 1.1;
+  letter-spacing: -0.05em;
   color: #FFFFFF;
   margin-bottom: 0.5rem;
 }
 
 .contact-copyright {
   font-family: 'GT America', sans-serif;
-  font-size: 30px;
+  font-size: 20px;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.5);
   line-height: 1;
-  letter-spacing: -0.1em;
-  margin-top: 1rem;
+  letter-spacing: -0.05em;
+  margin-top: 0.8rem;
 }
 
 .contact-cta {
@@ -1210,14 +1214,22 @@ textarea {
   .asset-arrow {
     width: 44px;
     height: 44px;
-    background: rgba(10, 10, 10, 0.3);
-    backdrop-filter: blur(4px);
-    border-radius: 50%;
+    background: transparent;
+    backdrop-filter: none;
+    border-radius: 0;
   }
 
-  .asset-arrow svg {
+  .asset-arrow img {
     width: 24px;
     height: 24px;
+  }
+
+  .asset-arrow-img--desktop {
+    display: none;
+  }
+
+  .asset-arrow-img--mobile {
+    display: block;
   }
 
   .asset-arrow--prev {
