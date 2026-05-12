@@ -964,6 +964,8 @@ textarea {
     margin-top: 2rem;
     padding-bottom: 1rem;
     font-size: 15px;
+    text-align: center;
+    width: 100%;
   }
 }
 
