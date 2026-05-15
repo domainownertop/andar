@@ -119,13 +119,27 @@
    * Initialize asset elements for a given project panel.
    * Lazily creates DOM elements from the data-assets JSON.
    */
-  function initAssets(panel) {
+  function initAssets(panel, force) {
     var track = panel.querySelector('.asset-track');
-    if (!track || track.dataset.initialized === 'true') return;
+    if (!track) return;
+    if (track.dataset.initialized === 'true' && !force) return;
+
+    // Clean up existing elements if we are forcing a re-init (responsive switch)
+    if (force) {
+      track.innerHTML = '';
+      var existingBackdrop = panel.querySelector('.project-backdrop');
+      if (existingBackdrop) existingBackdrop.remove();
+      var existingIndicators = panel.querySelector('.asset-indicators');
+      if (existingIndicators) existingIndicators.remove();
+    }
 
     var assets = [];
     try {
-      assets = JSON.parse(track.dataset.assets || '[]');
+      var isMobileView = window.innerWidth <= 768;
+      var mobileData = track.dataset.assetsMobile;
+      var desktopData = track.dataset.assets;
+      var rawData = (isMobileView && mobileData) ? mobileData : desktopData;
+      assets = JSON.parse(rawData || '[]');
     } catch (e) {
       console.error('Error parsing assets for panel:', panel, e);
       return;
@@ -406,4 +420,24 @@
 
   // Initialize
   updateHeaderTheme();
+
+  // ═══════════════════════════════════════════════════════════════
+  // RESPONSIVE ASSET SWITCHER (No refresh needed)
+  // ═══════════════════════════════════════════════════════════════
+  
+  var mql = window.matchMedia('(max-width: 768px)');
+  function handleBreakpointChange() {
+    console.log('Breakpoint crossed, re-initializing assets...');
+    panels.forEach(function (panel) {
+      initAssets(panel, true);
+    });
+  }
+
+  // Support for older browsers (addListener) and newer ones (addEventListener)
+  if (mql.addEventListener) {
+    mql.addEventListener('change', handleBreakpointChange);
+  } else if (mql.addListener) {
+    mql.addListener(handleBreakpointChange);
+  }
+
 })();

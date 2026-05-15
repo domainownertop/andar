@@ -1127,12 +1127,47 @@ textarea {
 
   .asset-carousel {
     width: 100%;
-    aspect-ratio: 16 / 9;
     height: auto;
     max-height: none;
     margin-top: 0;
     position: relative;
+    background: var(--black);
   }
+
+  .asset-track {
+    display: block;
+    height: auto;
+  }
+
+  .asset-track .asset-item {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .asset-track .asset-item:first-child {
+    position: relative;
+  }
+
+  .asset-track .asset-item img,
+  .asset-track .asset-item video {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+
+  /* For non-first items, we want them to cover the space established by the first one */
+  .asset-track .asset-item:not(:first-child) img,
+  .asset-track .asset-item:not(:first-child) video {
+    height: 100%;
+    object-fit: contain;
+  }
+
 
   /* Text overlays the image — same as desktop but stacked vertically */
   .slide-info {
@@ -1205,13 +1240,8 @@ textarea {
 
 
 
-  .asset-track .asset-item img,
-  .asset-track .asset-item video {
-    object-fit: contain;
-    width: 100%;
-    height: 100%;
-    background-color: var(--black);
-  }
+  /* Removed duplicate item rules to clean up */
+
 
   .asset-arrow {
     width: 44px;
