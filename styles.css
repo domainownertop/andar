@@ -594,9 +594,31 @@ textarea {
   pointer-events: none;
 }
 
+.slide-tags {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+  pointer-events: auto;
+}
+
+.slide-tag {
+  background: #B9B9B980;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 40px;
+  padding: 8px 20px;
+  font-family: 'GT America', sans-serif;
+  font-size: 16px;
+  font-weight: 275;
+  line-height: 1;
+  letter-spacing: -0.1em;
+  color: var(--white);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
 .slide-text-content {
   display: flex;
-  align-items: baseline;
+  align-items: flex-end;
   gap: 40px;
   flex-wrap: nowrap;
 }
@@ -615,15 +637,14 @@ textarea {
 
 .slide-desc {
   font-family: 'GT America', sans-serif;
-  font-size: 22px;
+  font-size: 19px;
   font-weight: 250;
   color: var(--white);
-  max-width: 380px;
+  max-width: 1200px;
   line-height: 1;
   letter-spacing: -0.1em;
   text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
   margin: 0;
-  transform: translateY(-1em);
 }
 
 /* ── Project Progress (auto-carousel) ─────────────────────────── */
@@ -632,7 +653,7 @@ textarea {
   display: flex;
   width: 100%;
   gap: 10px;
-  margin-top: 0;
+  margin-top: 20px;
   flex-basis: 100%;
   pointer-events: auto;
 }
