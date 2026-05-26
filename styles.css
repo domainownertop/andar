@@ -206,10 +206,18 @@ textarea {
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 }
 
+.header.scrolled .logo-img {
+  filter: brightness(0); /* Negro en cabecera scrolled amarilla */
+}
+
 .header.dark {
   background: rgba(10, 10, 10, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+}
+
+.header.dark .logo-img {
+  filter: brightness(1); /* Blanco en cabecera oscura */
 }
 
 .logo {
@@ -219,11 +227,11 @@ textarea {
 }
 
 .logo-img {
-  height: 60px;
-  /* Tamaño mucho más prominente */
+  height: 42px; /* Tamaño reducido de 60px a 42px para elegancia */
   width: auto;
   display: block;
-  transition: transform var(--transition-fast);
+  /* Sin filtro de brillo negro por defecto para que se mantenga blanco (color original del SVG) */
+  transition: filter 0.8s ease, transform var(--transition-fast);
   image-rendering: -webkit-optimize-contrast;
   /* Truco para mejorar la nitidez en algunos navegadores */
   image-rendering: crisp-edges;
@@ -327,8 +335,30 @@ textarea {
   background-color: #FFC629;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
+/* --- Contenedor del video cinemático --- */
+.hero-video-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 1; /* Detrás del menú/título, delante de la base amarilla */
+  opacity: 0;
+  transform: scale(1.03); /* Suave efecto de alejamiento al cargar */
+  transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+  background-color: transparent; /* Siempre transparente para que el fondo sea amarillo sólido */
+}
+
+.hero-video-element {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Título de la hero y su contenedor - Oculto al inicio y durante el vídeo */
 .hero-content {
   flex: 1;
   display: flex;
@@ -337,6 +367,79 @@ textarea {
   justify-content: center;
   /* Centrado horizontal */
   padding: 0 var(--space-lg);
+  position: relative;
+  z-index: 2;
+  opacity: 0; /* Totalmente oculto al inicio */
+  transform: scale(0.97) translateY(-10px);
+  pointer-events: none;
+  transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Ajustes de z-index de otros elementos en Hero para que queden sobre el video */
+.project-tabs--hero {
+  position: relative;
+  z-index: 2;
+  transition: opacity 0.8s ease;
+}
+
+/* --- ESTADO PLAYING: Activado por JS --- */
+.hero.hero--video-active .hero-video-wrapper {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* --- ESTADO INTRO FINALIZADA: Activado por JS tras terminar el vídeo --- */
+.hero.hero--intro-played .hero-title {
+  opacity: 1;
+  filter: blur(0px);
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+}
+
+/* Transiciones para la cabecera cuando el video está activo */
+.header {
+  transition: background var(--transition-base), box-shadow var(--transition-base), color 0.8s ease;
+}
+
+.header .nav-link,
+.header .nav-hamburger {
+  transition: color 0.8s ease, text-shadow 0.8s ease, background 0.8s ease;
+}
+
+/* Cambiar texto a blanco en el menú mientras corre el vídeo */
+.hero.hero--video-active .header .nav-link:not(.nav-link--pill),
+.hero.hero--video-active .header .nav-hamburger {
+  color: var(--white);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Ajustar el botón tipo pastilla (Proyectos) para que contraste mejor en fondo oscuro */
+.hero.hero--video-active .header .nav-link--pill {
+  background: var(--white);
+  color: var(--black);
+  text-shadow: none;
+}
+
+/* Cambiar el logo a blanco mientras corre el vídeo */
+.hero.hero--video-active .header .logo-img {
+  filter: brightness(1);
+}
+
+/* Transición para las pestañas inferiores del hero */
+.project-tabs--hero .project-tab {
+  transition: color 0.8s ease, background 0.8s ease, text-shadow 0.8s ease;
+}
+
+/* Cambiar las pestañas de abajo a blanco con sombra durante el vídeo */
+.hero.hero--video-active .project-tabs--hero .project-tab {
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+
+.hero.hero--video-active .project-tabs--hero .project-tab:hover {
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .hero-title {
@@ -344,8 +447,12 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: heroFadeUp 1s var(--ease-smooth) both;
-  animation-delay: 0.3s;
+  opacity: 0; /* Oculto al inicio */
+  filter: blur(15px); /* Efecto wow de desenfoque inicial */
+  transform: scale(0.95) translateY(30px); /* Efecto wow de escala y desplazamiento inicial */
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 1.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 1.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-title-img {
@@ -1042,6 +1149,10 @@ textarea {
     --header-height: 64px;
   }
 
+  .logo-img {
+    height: 21px; /* Reducido el tamaño en un 50% para versión móvil */
+  }
+
   html,
   body {
     overflow: visible;
@@ -1128,8 +1239,17 @@ textarea {
     background: var(--black);
   }
 
-  .project-tabs {
+  .project-tabs:not(.project-tabs--hero) {
     display: none;
+  }
+
+  .project-tabs--hero {
+    position: absolute !important;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 3;
+    background: transparent; /* Mantener fondo transparente */
   }
 
   .projects-viewport {

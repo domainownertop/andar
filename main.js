@@ -422,6 +422,54 @@
   updateHeaderTheme();
 
   // ═══════════════════════════════════════════════════════════════
+  // CINEMATIC HERO VIDEO INTRO (Play Once & Restore)
+  // ═══════════════════════════════════════════════════════════════
+  
+  function initHeroCinematicVideo() {
+    var heroVideo = document.getElementById('hero-cinematic-video');
+    var heroSec = document.getElementById('hero');
+    
+    if (!heroVideo || !heroSec) return;
+    
+    var isMobileView = window.innerWidth <= 768;
+    var videoSource = isMobileView 
+      ? 'assets/Andar_cabecera_landing_mobile.webm' 
+      : 'assets/Andar_cabecera_landing_desktop.webm';
+      
+    heroVideo.src = videoSource;
+    heroVideo.load();
+    
+    // Play as soon as it's ready for a smooth presentation
+    heroVideo.addEventListener('canplaythrough', function () {
+      setTimeout(function () {
+        heroSec.classList.add('hero--video-active');
+        heroVideo.play().catch(function (err) {
+          console.warn("Autoplay was blocked or failed:", err);
+          // Fallback robusto: si el autoplay es bloqueado, mostrar el contenido estático de inmediato
+          heroSec.classList.add('hero--intro-played');
+        });
+      }, 2000); // 1. Usuario abre la web: Ve un fondo completamente amarillo durante 2 segundos
+    }, { once: true });
+    
+    // When the video ends, smoothly fade it out and restore the classic design after 3 seconds
+    heroVideo.addEventListener('ended', function () {
+      // 2. El video termina: removemos inmediatamente el active (se desvanece en 1s según CSS, volviendo a amarillo)
+      heroSec.classList.remove('hero--video-active');
+      
+      // 3. Vuelve el fondo completamente amarillo durante 3 segundos antes de mostrar el texto final
+      setTimeout(function () {
+        heroSec.classList.add('hero--intro-played');
+        
+        // Pausar y desactivar el elemento de video para optimizar recursos del sistema
+        heroVideo.pause();
+        heroVideo.style.display = 'none';
+      }, 3000); // 3 segundos de fondo amarillo completo
+    });
+  }
+
+  initHeroCinematicVideo();
+
+  // ═══════════════════════════════════════════════════════════════
   // RESPONSIVE ASSET SWITCHER (No refresh needed)
   // ═══════════════════════════════════════════════════════════════
   
