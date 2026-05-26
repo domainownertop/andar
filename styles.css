@@ -558,7 +558,7 @@ textarea {
 }
 
 .project-tabs--hero {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: none;
   background: transparent;
   /* Already in gold hero background */
 }
@@ -1239,17 +1239,8 @@ textarea {
     background: var(--black);
   }
 
-  .project-tabs:not(.project-tabs--hero) {
+  .project-tabs {
     display: none;
-  }
-
-  .project-tabs--hero {
-    position: absolute !important;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    z-index: 3;
-    background: transparent; /* Mantener fondo transparente */
   }
 
   .projects-viewport {
