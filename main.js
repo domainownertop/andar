@@ -448,7 +448,7 @@
           // Fallback robusto: si el autoplay es bloqueado, mostrar el contenido estático de inmediato
           heroSec.classList.add('hero--intro-played');
         });
-      }, 2000); // 1. Usuario abre la web: Ve un fondo completamente amarillo durante 2 segundos
+      }, 1000); // 1. Usuario abre la web: Ve un fondo completamente amarillo durante 1 segundo
     }, { once: true });
     
     // When the video ends, smoothly fade it out and restore the classic design after 3 seconds
