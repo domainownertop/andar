@@ -754,7 +754,7 @@ textarea {
 
 .slide-desc {
   font-family: 'GT America', sans-serif;
-  font-size: clamp(14px, 1.1vw, 16px);
+  font-size: clamp(12px, 0.95vw, 16px);
   font-weight: 250;
   color: var(--white);
   max-width: 1200px;
